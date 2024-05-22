@@ -1,0 +1,113 @@
+.logo-main{
+    width: 40%;
+    margin: auto;
+    display: block;
+    cursor: pointer;
+    transition: transform .9s;
+    margin-top: 150px;
+}
+
+.logo-main:hover{
+    transform: scale(1.5);
+}
+
+.nav-cus{
+    background-color: #6C8088 !important;
+    background: linear-gradient(90deg, #323B3F, #BADBE8);
+}
+
+.bg-image{
+    /* filter: blur(8px);
+    -webkit-filter: blur(8px); */
+    background-position: center;
+    background-size: cover;
+    z-index: -1;
+}
+
+.main-panel{
+    background-color: #BAD0D8;
+    background: linear-gradient(180deg, #323B3F 25%, #738892);
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 25px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-clear{
+    margin: 10px;
+    color: orange;
+    font-weight: 600;
+    border-color: orange !important;
+}
+
+.btn-search{
+    font-weight: 600;
+}
+
+.btn-clear:hov{
+    background-color: orange;
+    
+}
+
+.qu-area{
+    border-radius: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 50%;
+}
+
+.title-qu{
+    /* font-size: large; */
+    font-weight: 700;
+    /* float: inline-start; */
+    padding-top: 10px;
+    text-align: center;
+    color: white;
+}
+
+.center-btn{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.im-res{
+    display: block; 
+    max-width: 50%; 
+    height: auto; 
+    margin: auto; 
+}
+
+.image-show{
+    margin-top: 10px;
+}
+
+.col-flex {
+    display: flex;
+    justify-content: center; /* Căn giữa ngang */
+    align-items: center; /* Căn giữa dọc */
+    height: 100%; /* Bạn cần đặt chiều cao nếu container chưa có */
+  }
+
+.clear-res{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.image-loading{
+    display: block;
+    width: 20%;
+    margin: auto;
+}
+
+@media (min-width: 768px) { /* Cho máy tính bảng và máy tính để bàn */
+    .main-panel {
+      min-height: 76vh;
+    }
+  }

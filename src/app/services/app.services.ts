@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
-import 'rxjs/add/operator/map';
+// import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
@@ -10,11 +11,7 @@ import { AppConsts } from './app.consts';
     providedIn: 'root'
 })
 export class AppService implements OnInit {
-    // apiRoot = 'http://123.30.158.155:8010/';
-    // clientRoot = 'http://123.30.158.155:8008/';
-    // portalRoot = 'http://123.30.158.155:8011/';
-    apiRoot = 'http://127.0.0.1:5000/';
-    clientRoot = 'http://localhost:4401/';
+    apiRoot = 'http://10.118.1.3:8009/';
     portalRoot = 'http://localhost:4200/';
     
     headers: any;
@@ -26,8 +23,6 @@ export class AppService implements OnInit {
     }
     constructor(
         private http: HttpClient,
-        private location: Location,
-        private router: Router
     ) {
         // tslint:disable-next-line:no-string-literal
         //this.apiRoot = `${this.location['_platformStrategy']._platformLocation.location.origin}/`;
@@ -58,46 +53,41 @@ export class AppService implements OnInit {
         this.headers.set('Authorization', `Bearer ${token}`);
     }
 
-    async doGET(methodUrl: any, params: any) {
+    public doGET(methodUrl: any, params: any): Observable<any> {
+        let res = null;
         this.createHeaders();
         const apiURL = `${this.apiRoot}${methodUrl}`;
-        try {
-            const data = await this.http.get(apiURL, { headers: this.headers, params })
-                .toPromise()
-                .then(res => res.json(), err => {
-                    if (err.statusText === 'Unauthorized') {
-                        //this.appSwal.showWarning(this.language.translate.instant('MsgUnauthorized'), false);
-                        //this.router.navigate([AppConsts.page.login]);
-                    }
-                    return null;
-                });
-            return data;
-        } catch (e) {
-            console.log(e);
-            return null;
-        }
+        console.log(apiURL);
+        return this.http.get(apiURL, { headers: this.headers, params });
     }
 
-    async doPOST(methodUrl: any, dataRequest: any) {
+    public doPOST(methodUrl: any, dataRequest: any) : Observable<any> {
         this.createHeaders();
         const apiURL = `${this.apiRoot}${methodUrl}`;
-        try {
-            const data = await this.http.post(apiURL, dataRequest, { headers: this.headers })
-                .toPromise()
-                .then(res => res.json(), err => console.log(err));
-            return data;
-        } catch (e) {
-            console.log(e);
-            return null;
-        }
+        console.log(dataRequest);
+        console.log(apiURL);
+        // const data = null;
+        const data = this.http.post(apiURL, dataRequest, {
+            reportProgress: true,
+            observe: 'events'
+          });
+        
+        return data;
     }
+
+    uploadFile(methodUrl: any, file: File) {
+        const formData: FormData = new FormData();
+        formData.append('file', file, file.name);
+        const apiURL = `${this.apiRoot}${methodUrl}`;
+        return this.http.post(apiURL, formData);
+      }
 
     async doPOSTOPTION(methodUrl: any, dataRequest: any, options: any) {
         const apiURL = `${this.apiRoot}${methodUrl}`;
         try {
             const data = await this.http.post(apiURL, dataRequest, options)
                 .toPromise()
-                .then(res => res.json(), err => err.json());
+                .then(res => res, err => err.json());
             return data;
         } catch (e) {
             console.log(e);
