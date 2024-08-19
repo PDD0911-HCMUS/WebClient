@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { HeaderMenuComponent } from './header-menu/header-menu.component';
 import { FooterMenuComponent } from './footer-menu/footer-menu.component';
 import { TrafficSggComponent } from './sgg/traffic-sgg/traffic-sgg.component';
+import { RetrievalByImageComponent } from './rs/retrieval-by-image/retrieval-by-image.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { TrafficSggComponent } from './sgg/traffic-sgg/traffic-sgg.component';
     TrafficSggComponent,
     HomeComponent,
     HeaderMenuComponent,
-    FooterMenuComponent
+    FooterMenuComponent,
+    RetrievalByImageComponent
   ],
   imports: [
     BrowserModule,

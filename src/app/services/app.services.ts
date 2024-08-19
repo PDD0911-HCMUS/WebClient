@@ -67,10 +67,7 @@ export class AppService implements OnInit {
         console.log(dataRequest);
         console.log(apiURL);
         // const data = null;
-        const data = this.http.post(apiURL, dataRequest, {
-            reportProgress: true,
-            observe: 'events'
-          });
+        const data = this.http.post(apiURL, dataRequest, { headers: this.headers });
         
         return data;
     }
