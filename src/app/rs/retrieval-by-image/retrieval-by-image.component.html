@@ -52,9 +52,21 @@
             <div class="row" *ngIf="this.isData != false">
                 <div class="container" >
                     <h4 class="form-label title-qu">Scene Graph</h4>
-                    <img class="im-res" style="cursor: pointer;" src="http://10.118.1.3:8009/res-sgg/{{this.imageGraph}}" (click)="openPopup(1)">
+                    <div class="modal-body row">
+                        <div class="col-md-6">
+                            <img class="im-res-scene" style="cursor: pointer;" src="http://10.118.1.3:8009/res-sgg/{{this.imageObject}}" (click)="openPopup(1)">
+                        </div>
+                        <div class="col-md-6">
+                            <div *ngFor="let triplet of triplets" class="triplet">
+                                <span class="subject">{{ triplet.subject }}</span>
+                                <span class="relation">{{ triplet.relation }}</span>
+                                <span class="object">{{ triplet.object }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <h4 class="form-label title-qu">Triplets Detection</h4>
-                    <img class="im-res" style="cursor: pointer;" src="http://10.118.1.3:8009/res-sgg/{{this.imageObject}}" (click)="openPopup(2)">
+                    <img class="im-res" style="cursor: pointer;" src="http://10.118.1.3:8009/res-sgg/{{this.imageTriplet}}" (click)="openPopup(2)">
                 </div>
             </div>
         </div>
@@ -107,55 +119,10 @@
                 <img class="im-detail" style="width: 85%;" src="http://10.118.1.3:8009/res-sgg/{{this.imageObject}}">
             </div>
             <div class="col-md-6">
-                <div class="row">
-                    <textarea [(ngModel)]="tripletContentS1" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentR1" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentO1" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                </div>
-                <div class="row">
-                    <textarea [(ngModel)]="tripletContentS2" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentR2" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentO2" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                </div>
-                <div class="row">
-                    <textarea [(ngModel)]="tripletContentS3" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentR3" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentO3" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                </div>
-                <div class="row">
-                    <textarea [(ngModel)]="tripletContentS4" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentR4" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentO4" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                </div>
-                <div class="row">
-                    <textarea [(ngModel)]="tripletContentS5" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentR5" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentO5" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                </div>
-                <div class="row">
-                    <textarea [(ngModel)]="tripletContentS6" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentR6" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentO6" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                </div>
-                <div class="row">
-                    <textarea [(ngModel)]="tripletContentS7" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentR7" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentO7" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                </div>
-                <div class="row">
-                    <textarea [(ngModel)]="tripletContentS8" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentR8" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentO8" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                </div>
-                <div class="row">
-                    <textarea [(ngModel)]="tripletContentS9" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentR9" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentO9" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                </div>
-                <div class="row">
-                    <textarea [(ngModel)]="tripletContentS10" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentR10" class="form-control form-control-sm qu-area" rows="1"></textarea>
-                    <textarea [(ngModel)]="tripletContentO10" class="form-control form-control-sm qu-area" rows="1"></textarea>
+                <div *ngFor="let triplet of triplets" class="triplet">
+                    <span class="subject">{{ triplet.subject }}</span>
+                    <span class="relation">{{ triplet.relation }}</span>
+                    <span class="object">{{ triplet.object }}</span>
                 </div>
             </div>
         </div> 

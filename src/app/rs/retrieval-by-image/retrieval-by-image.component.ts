@@ -3,11 +3,18 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { AppService } from '../../services/app.services';
 import { firstValueFrom } from 'rxjs';
+
+interface Triplet {
+  subject: string;
+  relation: string;
+  object: string;
+}
 @Component({
   selector: 'app-retrieval-by-image',
   templateUrl: './retrieval-by-image.component.html',
   styleUrl: './retrieval-by-image.component.css'
 })
+
 export class RetrievalByImageComponent {
   title = 'WebClient';
   public CopyText: any;
@@ -25,42 +32,7 @@ export class RetrievalByImageComponent {
   imageTriplet = null;
   tripletContent = null;
 
-  contentJson = {
-
-  }
-
-  tripletContentS1 = null;
-  tripletContentS2 = null;
-  tripletContentS3 = null;
-  tripletContentS4 = null;
-  tripletContentS5 = null;
-  tripletContentS6 = null;
-  tripletContentS7 = null;
-  tripletContentS8 = null;
-  tripletContentS9 = null;
-  tripletContentS10 = null;
-
-  tripletContentO1 = null;
-  tripletContentO2 = null;
-  tripletContentO3 = null;
-  tripletContentO4 = null;
-  tripletContentO5 = null;
-  tripletContentO6 = null;
-  tripletContentO7 = null;
-  tripletContentO8 = null;
-  tripletContentO9 = null;
-  tripletContentO10 = null;
-
-  tripletContentR1 = null;
-  tripletContentR2 = null;
-  tripletContentR3 = null;
-  tripletContentR4 = null;
-  tripletContentR5 = null;
-  tripletContentR6 = null;
-  tripletContentR7 = null;
-  tripletContentR8 = null;
-  tripletContentR9 = null;
-  tripletContentR10 = null;
+  triplets: Triplet[] = [];
 
   status: "initial" | "uploading" | "success" | "fail" = "initial"; // Variable to store file status
   file: File | null = null; // Variable to store file
@@ -131,6 +103,13 @@ export class RetrievalByImageComponent {
       this.imageGraph = this.dataRespone.Data["graphDet"];
       this.imageTriplet = this.dataRespone.Data["tripletDet"];
       this.tripletContent = this.dataRespone.Data["triplets"];
+
+      this.triplets = (this.dataRespone.Data["tripletSet"] as Triplet[]).map((item: Triplet) => ({
+        subject: item.subject,
+        relation: item.relation,
+        object: item.object
+
+      }));
     }
   }
 

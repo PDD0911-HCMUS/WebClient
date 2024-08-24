@@ -77,6 +77,8 @@
     margin: auto; 
 }
 
+
+
 .image-show{
     margin-top: 10px;
 }
@@ -122,6 +124,16 @@
 .im-res{
     display: block; 
     max-width: 50%; 
+    height: auto; 
+    margin: auto; 
+    margin-top: 10px;
+    margin-bottom: 10px;
+    transition: transform .9s;
+}
+
+.im-res-scene{
+    display: block; 
+    max-width: 150%; 
     height: auto; 
     margin: auto; 
     margin-top: 10px;
@@ -177,4 +189,27 @@ input[type="file"] {
 
 .im-res:hover{
     transform: scale(1.15);
+}
+
+
+.triplet {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    font-family: Arial, sans-serif;
+}
+
+.subject {
+    color: #007BFF;
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+.relation {
+    color: #28A745;
+    margin-right: 5px;
+}
+
+.object {
+    color: #DC3545;
 }
