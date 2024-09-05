@@ -131,6 +131,16 @@
     transition: transform .9s;
 }
 
+.im-rev{
+    display: block; 
+    max-width: 100%; 
+    height: auto; 
+    margin: auto; 
+    margin-top: 10px;
+    margin-bottom: 10px;
+    transition: transform .9s;
+}
+
 .im-res-scene{
     display: block; 
     max-width: 150%; 
@@ -191,8 +201,30 @@ input[type="file"] {
     transform: scale(1.15);
 }
 
+.im-res-scene:hover{
+    transform: scale(1.15);
+}
 
+.im-rev:hover{
+    transform: scale(1.15);
+}
+
+.triplets-block{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: auto;
+}
 .triplet {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    font-family: Arial, sans-serif;
+    justify-content: flex-end;
+}
+
+.triplet-rev {
     display: flex;
     align-items: center;
     margin: 10px 0;
@@ -203,13 +235,22 @@ input[type="file"] {
     color: #007BFF;
     font-weight: bold;
     margin-right: 5px;
+    font-weight: bolder;
 }
 
 .relation {
     color: #28A745;
     margin-right: 5px;
+    font-weight: bolder;
 }
 
 .object {
     color: #DC3545;
+    font-weight: bolder;
 }
+
+input {
+    padding: 5px;
+    font-size: 14px;
+    width: 15%; /* Điều chỉnh độ rộng của input */
+  }

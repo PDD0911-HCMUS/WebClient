@@ -24,8 +24,6 @@ export class AppService implements OnInit {
     constructor(
         private http: HttpClient,
     ) {
-        // tslint:disable-next-line:no-string-literal
-        //this.apiRoot = `${this.location['_platformStrategy']._platformLocation.location.origin}/`;
 
         this.domainAPI = this.apiRoot;
         var startIdx = this.domainAPI.indexOf("//");
@@ -65,18 +63,20 @@ export class AppService implements OnInit {
         this.createHeaders();
         const apiURL = `${this.apiRoot}${methodUrl}`;
         console.log(dataRequest);
+        console.log(typeof(dataRequest))
         console.log(apiURL);
         // const data = null;
-        const data = this.http.post(apiURL, dataRequest, { headers: this.headers });
+        const data = this.http.post(apiURL, dataRequest);
         
         return data;
     }
 
-    uploadFile(methodUrl: any, file: File) {
+    public uploadFile(file: File) {
         const formData: FormData = new FormData();
         formData.append('file', file, file.name);
-        const apiURL = `${this.apiRoot}${methodUrl}`;
-        return this.http.post(apiURL, formData);
+        // const apiURL = `${this.apiRoot}${methodUrl}`;
+        // return this.http.post(apiURL, formData);
+        return formData
       }
 
     async doPOSTOPTION(methodUrl: any, dataRequest: any, options: any) {

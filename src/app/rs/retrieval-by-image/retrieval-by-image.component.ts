@@ -3,6 +3,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { AppService } from '../../services/app.services';
 import { firstValueFrom } from 'rxjs';
+import Swal from 'sweetalert2';
+import { AppSwal } from '../../services/app.swals';
 
 interface Triplet {
   subject: string;
@@ -24,6 +26,7 @@ export class RetrievalByImageComponent {
   isData = false;
   isDataRev = false;
   isLoading: boolean = false;
+  isLoadingRev: boolean = false;
 
   fileToUpload: File | null = null;
 
@@ -44,33 +47,52 @@ export class RetrievalByImageComponent {
   detailId = 0;
 
   imageRev = [];
+  tripletRev = [];
+
+  tripRev: Triplet[] = [];
+  apiRoot: any;
 
   constructor(
     private modalService: NgbModal,
     private router: Router,
-    private appService: AppService
+    private appService: AppService,
+    private appSwal: AppSwal
   ) {
+
+    this.apiRoot = appService.apiRoot;
   }
 
-  // public open(modal: any): void {
-  //   this.modalService.open(modal);
-  // }
-  getRows(images: any[]): any[][] {
-    const rows = [];
+  getRows(images: any[], triplets: any[]): any[][] {
+    const rows_image = [];
+    const rows_triplet = [];
 
     for (let i = 0; i < images.length; i += 3) {
-      rows.push(images.slice(i, i + 3));
+      rows_image.push(images.slice(i, i + 3));
+      rows_triplet.push(triplets.slice(i, i + 3))
     }
 
-    return rows;
+    console.log(rows_image, rows_triplet)
+
+    return [rows_image, rows_triplet];
+  }
+
+  getRows2(triplets: any[]): any[][] {
+    const rows_triplet = [];
+
+    for (let i = 0; i < triplets.length; i += 3) {
+      rows_triplet.push(triplets.slice(i, i + 3))
+    }
+
+    return rows_triplet;
   }
 
   public onClickClear(){
     this.CopyText = "";
+    this.isData = false;
   }
 
   public onClickClearRes(){
-    this.isData = false;
+    this.isDataRev = false;
   }
 
   // On file Select
@@ -86,53 +108,67 @@ export class RetrievalByImageComponent {
     }
   }
 
-  async onUpload() {
-    // we will implement this method later
+  async onClickSGG() {
     this.status = 'uploading';
     this.isLoading = true;
     this.isData = false;
     if (this.file){
-      const result = await firstValueFrom(this.appService.uploadFile('upload', this.file));
+
+      const formData = await this.appService.uploadFile(this.file)
+      const result = await firstValueFrom(this.appService.doPOST('sgg/sgg-gen', formData));
 
       this.dataRespone = result;
-      this.status = 'success';
-      this.isLoading = false;
-      this.isData = true;
-      console.log(this.dataRespone);
-      this.imageObject = this.dataRespone.Data["objectDet"];
-      this.imageGraph = this.dataRespone.Data["graphDet"];
-      this.imageTriplet = this.dataRespone.Data["tripletDet"];
-      this.tripletContent = this.dataRespone.Data["triplets"];
+      if(this.dataRespone.Data != null && this.dataRespone.Status != false){
+        this.status = 'success';
+        this.isLoading = false;
+        this.isData = true;
+        console.log(this.dataRespone);
+        this.imageObject = this.dataRespone.Data["objectDet"];
+        this.imageGraph = this.dataRespone.Data["graphDet"];
+        this.imageTriplet = this.dataRespone.Data["tripletDet"];
+        this.tripletContent = this.dataRespone.Data["triplets"];
 
-      this.triplets = (this.dataRespone.Data["tripletSet"] as Triplet[]).map((item: Triplet) => ({
-        subject: item.subject,
-        relation: item.relation,
-        object: item.object
+        this.triplets = (this.dataRespone.Data["tripletSet"] as Triplet[]).map((item: Triplet) => ({
+          subject: item.subject,
+          relation: item.relation,
+          object: item.object
 
-      }));
+        }));
+
+        this.appSwal.showSuccess(this.dataRespone.Msg);
+      }
+      else{
+        this.appSwal.showFailure(this.dataRespone.Msg);
+        this.status = 'fail';
+      }
+      
     }
-  }
-
-  getTripletContents(tripletContent : any){
 
   }
 
   async onClickSearch(){
-    // this.isLoading = true;
-    // this.isData = false;
-    console.log(this.tripletContent);
+    this.isLoadingRev = true;
+    this.isDataRev = false;
+    const tripletStrings = this.triplets.map(triplet => `${triplet.subject} ${triplet.relation} ${triplet.object}`);
     const data = {
-      triplet: this.tripletContent
+      triplet: tripletStrings
     };
-    const result = await this.appService.doPOST('rev', data);
+    console.log(data);
+    const result = await this.appService.doPOST('rev/rev-jaccard', data);
     result.subscribe(
       (r) => {
         this.dataRespone = r;
-        this.isData = true;
-        this.isLoading = false;
-        console.log(this.dataRespone.Data);
+        this.isLoadingRev = false;
         this.isDataRev = true;
-        this.imageRev = this.dataRespone.Data['imgs'];
+        if(this.dataRespone.Data != null && this.dataRespone.Status != false){
+          this.imageRev = this.dataRespone.Data['imgs'];
+          this.tripletRev = this.dataRespone.Data['triplets'];
+          this.appSwal.showPopup();
+        }
+        else{
+          this.appSwal.showFailure(this.dataRespone.Msg)
+        }
+        
       }
     );
   }

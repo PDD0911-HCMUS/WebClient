@@ -105,7 +105,8 @@ export class TrafficSggComponent {
     this.isLoading = true;
     this.isData = false;
     if (this.file){
-      const result = await this.appService.uploadFile('upload', this.file);
+      const formData = this.appService.uploadFile(this.file)
+      const result = await this.appService.doPOST('upload', formData);
       result.subscribe(
         r => {
           this.dataRespone = r;
