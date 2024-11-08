@@ -2,9 +2,9 @@
 <app-header-menu></app-header-menu>
 <div class="container-fluid main-panel">
     <div class="row">
-        <div class="col-md-6" style="border-right: dashed;">
+        <div class="col-md-6 divide-dashed">
             <div class="row custom-file">
-                <h2 for="exampleFormControlTextarea1" class="form-label title-qu">Input Area</h2>
+                <h2 for="exampleFormControlTextarea1" class="form-label title">Input Area</h2>
                 <label class="custom-file-input">
                     <i class="fa fa-cloud-upload"></i> Upload Image or Drag and drop Image here.
                     <input type="file" (change)="onChange($event)" #fileUpload />
@@ -17,7 +17,7 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-4">
                     <section class="file-info">
-                        <h4 class="form-label title-qu">File Information</h4>
+                        <h4 class="form-label title">File Information</h4>
                         <ul>
                             <li>Name: {{file.name}}</li>
                             <li>Type: {{file.type}}</li>
@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-md-4">
                     <section class="center-btn">
-                        <button class="btn btn-outline-success btn-search" type="submit" (click)="onUpload()">
+                        <button class="btn btn-outline-success btn-search" type="submit" (click)="onClickSGG()">
                             <i class="fa-solid fa-magnifying-glass"></i> Excute Scene Graph Generation
                         </button>
                     </section>
@@ -45,17 +45,29 @@
 
         <div class="col-md-6">
             <div class="row">
-                <h2 for="exampleFormControlTextarea1" class="form-label title-qu">Output Result Area</h2>
+                <h2 for="exampleFormControlTextarea1" class="form-label title">Output Scene Graph</h2>
             </div>
             <div class="loading-container" *ngIf="this.isLoading">
                 <img src="./assets/loading.gif" class="image-loading">
             </div>
             <div class="row" *ngIf="this.isData != false">
                 <div class="container" >
-                    <h4 class="form-label title-qu">Scene Graph</h4>
-                    <img class="im-res" style="cursor: pointer;" src="http://10.118.1.3:8009/res-sgg/{{this.imageGraph}}" (click)="openPopup(1)">
-                    <h4 class="form-label title-qu">Triplets Detection</h4>
-                    <img class="im-res" style="cursor: pointer;" src="http://10.118.1.3:8009/res-sgg/{{this.imageObject}}" (click)="openPopup(2)">
+                    <h4 class="form-label title">Scene Graph</h4>
+                    <div class="modal-body row">
+                        <div class="col-md-6">
+                            <img class="im-res-scene" style="cursor: pointer;" src="{{apiRoot}}/sgg/res-sgg/{{this.imageObject}}" > <!--(click)="openPopup(1)"-->
+                        </div>
+                        <div class="col-md-6 triplets-block">
+                            <div *ngFor="let triplet of triplets; let i = index" class="triplet">
+                                <input [(ngModel)]="triplet.subject" placeholder="Subject" class="subject">
+                                <input [(ngModel)]="triplet.relation" placeholder="Relation" class="relation">
+                                <input [(ngModel)]="triplet.object" placeholder="Object" class="object">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <h4 class="form-label title">Triplets Detection</h4>
+                    <img class="im-res" style="cursor: pointer;" src="{{apiRoot}}/sgg/res-sgg/{{this.imageTriplet}}" (click)="openPopup(2)">
                 </div>
             </div>
         </div>
@@ -63,26 +75,19 @@
 </div>
 
 <div class="modal" style="justify-content: center;align-items: center;margin: auto;" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}"> 
-  <div role="document"> 
-    <div class="modal-content triplet-details"> 
-      <div class="modal-header"> 
-        <h4 class="modal-title">Triplet Details</h4> 
-      </div> 
-      <div class="modal-body row"> 
-        <!-- <div class="col-md-4">
-            <img *ngIf="detailId == 1" class="im-detail" src="http://10.118.1.3:8009/res-sgg/{{this.imageGraph}}">
-            <img *ngIf="detailId == 2" class="im-detail" src="http://10.118.1.3:8009/res-sgg/{{this.imageObject}}">
-        </div>
-        <div class="col-md-8">
-            <img class="im-detail" src="http://10.118.1.3:8009/res-sgg/{{this.imageTriplet}}">
-        </div> -->
-        <img class="im-detail" src="http://10.118.1.3:8009/res-sgg/{{this.imageTriplet}}">
-      </div> 
-      <div class="modal-footer"> 
-        <button type="button" class="btn btn-danger" (click)="closePopup()"> Close </button> 
+    <div role="document"> 
+      <div class="modal-content triplet-details"> 
+        <div class="modal-header"> 
+          <h4 class="modal-title">Triplet Details</h4> 
+        </div> 
+        <div class="modal-body row" *ngIf="this.imageTriplet"> 
+          <img class="im-detail" src="{{apiRoot}}sgg/res-sgg/{{this.imageTriplet}}">
+        </div> 
+        <div class="modal-footer"> 
+          <button type="button" class="btn btn-danger" (click)="closePopup()"> Close </button> 
+        </div> 
       </div> 
     </div> 
-  </div> 
 </div>
 
 

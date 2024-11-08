@@ -2,7 +2,14 @@ import { Component } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { AppService } from '../../services/app.services';
+import { firstValueFrom } from 'rxjs';
+import { AppSwal } from '../../services/app.swals';
 
+interface Triplet {
+  subject: string;
+  relation: string;
+  object: string;
+}
 @Component({
   selector: 'app-traffic-sgg',
   templateUrl: './traffic-sgg.component.html',
@@ -22,6 +29,9 @@ export class TrafficSggComponent {
   imageObject = null;
   imageGraph = null;
   imageTriplet = null;
+  tripletContent = null;
+
+  triplets: Triplet[] = [];
 
   status: "initial" | "uploading" | "success" | "fail" = "initial"; // Variable to store file status
   file: File | null = null; // Variable to store file
@@ -31,11 +41,16 @@ export class TrafficSggComponent {
   displayStyle = "none";
   detailId = 0;
 
+  apiRoot: any;
+
   constructor(
     private modalService: NgbModal,
     private router: Router,
-    private appService: AppService
+    private appService: AppService,
+    private appSwal: AppSwal
   ) {
+
+    this.apiRoot = appService.apiRoot;
   }
 
   ngOnInit(): void {}
@@ -99,28 +114,42 @@ export class TrafficSggComponent {
     }
   }
 
-  async onUpload() {
-    // we will implement this method later
+  async onClickSGG() {
     this.status = 'uploading';
     this.isLoading = true;
     this.isData = false;
     if (this.file){
-      const formData = this.appService.uploadFile(this.file)
-      const result = await this.appService.doPOST('upload', formData);
-      result.subscribe(
-        r => {
-          this.dataRespone = r;
-          this.status = 'success';
-          this.isLoading = false;
-          this.isData = true;
-          console.log(r);
-          console.log(this.dataRespone.Data);
-          this.imageObject = this.dataRespone.Data[0];
-          this.imageGraph = this.dataRespone.Data[1];
-          this.imageTriplet = this.dataRespone.Data[2];
-        }
-      );
+
+      const formData = await this.appService.uploadFile(this.file)
+      const result = await firstValueFrom(this.appService.doPOST('sgg/sgg-gen', formData));
+
+      this.dataRespone = result;
+      if(this.dataRespone.Data != null && this.dataRespone.Status != false){
+        this.status = 'success';
+        this.isLoading = false;
+        this.isData = true;
+        console.log(this.dataRespone);
+        this.imageObject = this.dataRespone.Data["objectDet"];
+        this.imageGraph = this.dataRespone.Data["graphDet"];
+        this.imageTriplet = this.dataRespone.Data["tripletDet"];
+        this.tripletContent = this.dataRespone.Data["triplets"];
+
+        this.triplets = (this.dataRespone.Data["tripletSet"] as Triplet[]).map((item: Triplet) => ({
+          subject: item.subject,
+          relation: item.relation,
+          object: item.object
+
+        }));
+
+        this.appSwal.showSuccess(this.dataRespone.Msg);
+      }
+      else{
+        this.appSwal.showFailure(this.dataRespone.Msg);
+        this.status = 'fail';
+      }
+      
     }
+
   }
 
   openPopup(id: any) { 

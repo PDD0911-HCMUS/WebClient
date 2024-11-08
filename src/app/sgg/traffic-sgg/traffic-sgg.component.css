@@ -8,25 +8,11 @@
     background: linear-gradient(90deg, #323B3F, #BADBE8);
 }
 
-.bg-image{
-    background-image: url('../../../assets/background.jpg');
-    /* filter: blur(8px);
-    -webkit-filter: blur(8px); */
-    background-position: center;
-    background-size: cover;
-    z-index: -1;
+.divide-dashed{
+    border-right: dashed;
+    color: #65BBDF;
 }
 
-@media (min-width: 768px) { /* Cho máy tính bảng và máy tính để bàn */
-    .main-panel {
-      min-height: 76vh;
-    }
-  }
-/* @media (min-width: 1200px) {
-    .main-panel {
-      min-height: 100vh;
-    }
-} */
 .btn-clear{
     margin: 10px;
     color: orange;
@@ -45,37 +31,13 @@
 
 .qu-area{
     border-radius: 15px;
-    display: block;
+    /* display: block; */
+    display: inline;
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 50%;
-}
-
-.title-qu{
-    /* font-size: large; */
-    font-weight: 700;
-    /* float: inline-start; */
-    padding-top: 10px;
-    text-align: center;
-    color: white;
-}
-
-.center-btn{
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-}
-
-.im-res{
-    display: block; 
-    max-width: 50%; 
-    height: auto; 
-    margin: auto; 
-    margin-top: 10px;
-    margin-bottom: 10px;
-    transition: transform .9s;
+    width: 25%;
 }
 
 .image-show{
@@ -95,24 +57,42 @@
     align-items: center; 
 }
 
-.image-loading{
-    display: block;
-    width: 20%;
-    margin: auto;
+@media (min-width: 768px) { /* Cho máy tính bảng và máy tính để bàn */
+    .main-panel {
+      min-height: 76vh;
+    }
+  }
+
+.im-res{
+    display: block; 
+    max-width: 50%; 
+    height: auto; 
+    margin: auto; 
+    margin-top: 10px;
+    margin-bottom: 10px;
+    transition: transform .9s;
 }
 
-.custom-file-input{
-    background-color: #BAD0D8;
-    border-radius: 5px;
-    height: 50px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center; /* Căn giữa ngang */
-    align-items: center; /* Căn giữa dọc */
-    width: 75%;
-    margin: auto;
-
+.im-rev{
+    display: block; 
+    max-width: 100%; 
+    height: auto; 
+    margin: auto; 
+    margin-top: 10px;
+    margin-bottom: 10px;
+    transition: transform .9s;
 }
+
+.im-res-scene{
+    display: block; 
+    max-width: 150%; 
+    height: auto; 
+    margin: auto; 
+    margin-top: 10px;
+    margin-bottom: 10px;
+    transition: transform .9s;
+}
+
 input[type="file"] {
     display: none;
 }
@@ -138,7 +118,6 @@ input[type="file"] {
 }
 
 .triplet-details{
-    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -147,5 +126,62 @@ input[type="file"] {
 }
 
 .im-res:hover{
-    transform: scale(1.5);
+    transform: scale(1.15);
 }
+
+.im-res-scene:hover{
+    transform: scale(1.15);
+}
+
+.im-rev:hover{
+    transform: scale(1.15);
+}
+
+.triplets-block{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin: auto;
+}
+.triplet {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    font-family: Arial, sans-serif;
+    justify-content: flex-end;
+}
+
+.triplet-rev {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    font-family: Arial, sans-serif;
+}
+
+.subject {
+    color: #007BFF;
+    font-weight: bold;
+    margin-right: 5px;
+    font-weight: bolder;
+    border-radius: 15px;
+}
+
+.relation {
+    color: #28A745;
+    margin-right: 5px;
+    font-weight: bolder;
+    border-radius: 15px;
+}
+
+.object {
+    color: #DC3545;
+    font-weight: bolder;
+    border-radius: 15px;
+}
+
+input {
+    padding: 5px;
+    font-size: 14px;
+    width: 15%; /* Điều chỉnh độ rộng của input */
+  }
