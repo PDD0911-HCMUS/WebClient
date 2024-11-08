@@ -2,22 +2,22 @@
 <app-header-menu></app-header-menu>
 <div class="container-fluid main-panel">
     <div class="row">
-        <div class="col-md-6" style="border-right: dashed;">
+        <div class="col-md-6 divide-dashed">
             <div class="row custom-file">
-                <h2 for="exampleFormControlTextarea1" class="form-label title-qu">Input Area</h2>
+                <h2 class="form-label title">Input Area</h2>
                 <label class="custom-file-input">
                     <i class="fa fa-cloud-upload"> </i> Upload or Drag and drop image here.
                     <input type="file" (change)="onChange($event)" #fileUpload />
                 </label>
             </div>
             <div class="row">
-                <img class="im-res" *ngIf="imageSrc" [src]="imageSrc" alt="Image preview...">
+                <img class="im-res" *ngIf="imageSrc" [src]="imageSrc">
             </div>
             <div class="row" *ngIf="file">
                 <div class="col-md-2"></div>
                 <div class="col-md-4">
                     <section class="file-info">
-                        <h4 class="form-label title-qu">File Information</h4>
+                        <h4 class="form-label title">File Information</h4>
                         <ul>
                             <li>Name: {{file.name}}</li>
                             <li>Type: {{file.type}}</li>
@@ -44,21 +44,20 @@
         </div>
         <div class="col-md-6">
             <div class="row">
-                <h2 for="exampleFormControlTextarea1" class="form-label title-qu">Output Scene Graph</h2>
+                <h2 for="exampleFormControlTextarea1" class="form-label title">Output Scene Graph</h2>
             </div>
             <div class="loading-container" *ngIf="this.isLoading">
                 <img src="./assets/loading.gif" class="image-loading">
             </div>
             <div class="row" *ngIf="this.isData != false">
                 <div class="container" >
-                    <h4 class="form-label title-qu">Scene Graph</h4>
+                    <h4 class="form-label title">Scene Graph</h4>
                     <div class="modal-body row">
                         <div class="col-md-6">
                             <img class="im-res-scene" style="cursor: pointer;" src="{{apiRoot}}/sgg/res-sgg/{{this.imageObject}}" > <!--(click)="openPopup(1)"-->
                         </div>
                         <div class="col-md-6 triplets-block">
                             <div *ngFor="let triplet of triplets; let i = index" class="triplet">
-
                                 <input [(ngModel)]="triplet.subject" placeholder="Subject" class="subject">
                                 <input [(ngModel)]="triplet.relation" placeholder="Relation" class="relation">
                                 <input [(ngModel)]="triplet.object" placeholder="Object" class="object">
@@ -66,7 +65,7 @@
                         </div>
                     </div>
                     
-                    <h4 class="form-label title-qu">Triplets Detection</h4>
+                    <h4 class="form-label title">Triplets Detection</h4>
                     <img class="im-res" style="cursor: pointer;" src="{{apiRoot}}/sgg/res-sgg/{{this.imageTriplet}}" (click)="openPopup(2)">
                 </div>
             </div>
@@ -84,7 +83,7 @@
 
     <div class="row">
         <div class="col">
-            <h2 for="exampleFormControlTextarea1" class="form-label title-qu">Result Area</h2>
+            <h2 for="exampleFormControlTextarea1" class="form-label title">Result Area</h2>
         </div>
     </div>
     <div class="row center-btn" *ngIf="this.isData != false">

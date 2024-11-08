@@ -8,24 +8,9 @@
     background: linear-gradient(90deg, #323B3F, #BADBE8);
 }
 
-.bg-image{
-    background-image: url('../../../assets/background.jpg');
-    /* filter: blur(8px);
-    -webkit-filter: blur(8px); */
-    background-position: center;
-    background-size: cover;
-    z-index: -1;
-}
-
-.main-panel{
-    background-color: #BAD0D8;
-    background: linear-gradient(180deg, #323B3F 25%, #738892);
-    padding-left: 25px;
-    padding-right: 25px;
-    padding-bottom: 25px;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
+.divide-dashed{
+    border-right: dashed;
+    color: #65BBDF;
 }
 
 .btn-clear{
@@ -55,29 +40,12 @@
     width: 25%;
 }
 
-.title-qu{
-    /* font-size: large; */
-    font-weight: 700;
-    /* float: inline-start; */
-    padding-top: 10px;
-    text-align: center;
-    color: white;
-}
-
-.center-btn{
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-}
-
 .im-res{
     display: block; 
     max-width: 50%; 
     height: auto; 
     margin: auto; 
 }
-
-
 
 .image-show{
     margin-top: 10px;
@@ -96,30 +64,11 @@
     align-items: center; 
 }
 
-.image-loading{
-    display: block;
-    width: 20%;
-    margin: auto;
-}
-
 @media (min-width: 768px) { /* Cho máy tính bảng và máy tính để bàn */
     .main-panel {
       min-height: 76vh;
     }
   }
-
-.main-panel{
-    /* background-image: url('../../../assets/background.jpg'); */
-    background-color: #BAD0D8;
-    background: linear-gradient(180deg, #323B3F 25%, #738892);
-    padding-left: 25px;
-    padding-right: 25px;
-    padding-bottom: 25px;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    /* min-height: 76vh; */
-}
 
 .im-res{
     display: block; 
@@ -151,19 +100,6 @@
     transition: transform .9s;
 }
 
-.custom-file-input{
-    background-color: #BAD0D8;
-    border-radius: 5px;
-    height: 50px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center; /* Căn giữa ngang */
-    align-items: center; /* Căn giữa dọc */
-    width: 75%;
-    margin: auto;
-
-}
-
 input[type="file"] {
     display: none;
 }
@@ -189,7 +125,6 @@ input[type="file"] {
 }
 
 .triplet-details{
-    
     display: flex;
     justify-content: center;
     align-items: center;
@@ -236,17 +171,20 @@ input[type="file"] {
     font-weight: bold;
     margin-right: 5px;
     font-weight: bolder;
+    border-radius: 15px;
 }
 
 .relation {
     color: #28A745;
     margin-right: 5px;
     font-weight: bolder;
+    border-radius: 15px;
 }
 
 .object {
     color: #DC3545;
     font-weight: bolder;
+    border-radius: 15px;
 }
 
 input {

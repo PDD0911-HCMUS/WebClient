@@ -1,2 +1,48 @@
 /* You can add global styles to this file, and also import other style files */
 // @import "~@fortawesome/fontawesome-free/css/all.css";
+.main-panel{
+    /* background-color: #BAD0D8; */
+    /* background: linear-gradient(180deg, #323B3F 25%, #738892); */
+    background: #DBF3FF;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 25px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.custom-file-input{
+    /* background-color: #BAD0D8; */
+    border-radius: 5px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center; /* Căn giữa ngang */
+    align-items: center; /* Căn giữa dọc */
+    width: 75%;
+    margin: auto;
+    border-style: dotted;
+}
+
+.center-btn{
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+}
+
+.title{
+    /* font-size: large; */
+    font-weight: 700;
+    /* float: inline-start; */
+    padding-top: 10px;
+    text-align: center;
+    color: #65BBDF;
+}
+
+.image-loading{
+    display: block;
+    width: 70%;
+    margin: auto;
+}

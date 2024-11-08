@@ -4,29 +4,11 @@
 }
 
 .nav-cus{
-    background-color: #6C8088 !important;
-    background: linear-gradient(90deg, #323B3F, #BADBE8);
+    /* background-color: #6C8088 !important; */
+    background: linear-gradient(90deg, #91e2ff, #DBF3FF);
     position: sticky; 
     top: 0; 
     width: 100%; 
-}
-
-.bg-image{
-    /* filter: blur(8px);
-    -webkit-filter: blur(8px); */
-    background-position: center;
-    background-size: cover;
-    z-index: -1;
-}
-
-.main-panel{
-    /* background-image: url('../../../assets/background.jpg'); */
-    background-color: #BAD0D8;
-    background: linear-gradient(180deg, #323B3F 25%, #738892);
-    padding-left: 25px;
-    padding-right: 25px;
-    padding-bottom: 25px;
-    z-index: 2;
 }
 
 .hover-link :hover {

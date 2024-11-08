@@ -164,6 +164,7 @@ export class RetrievalByImageComponent {
           this.imageRev = this.dataRespone.Data['imgs'];
           this.tripletRev = this.dataRespone.Data['triplets'];
           this.appSwal.showPopup();
+          console.log(this.tripletRev)
         }
         else{
           this.appSwal.showFailure(this.dataRespone.Msg)
