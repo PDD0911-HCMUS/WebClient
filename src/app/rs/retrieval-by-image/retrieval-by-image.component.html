@@ -92,11 +92,11 @@
                 <i class="fa-solid fa-xmark"></i> Clear Result</button>
         </div>
     </div>
-    <div class="loading-container" *ngIf="this.isLoadingRev">
+    <!-- <div class="loading-container" *ngIf="this.isLoadingRev">
         <img src="./assets/loading.gif" class="image-loading">
-    </div>
+    </div> -->
     <div class="container" *ngIf="isDataRev">
-        <div class="row image-show" *ngFor="let row of getRows2(this.tripletRev); let idx = index">
+        <div class="row image-show" *ngFor="let row of getRows(this.tripletRev); let idx = index">
             <div class="col-4 d-flex justify-content-center align-items-center" *ngFor="let image of row">
                 <div class="row align-items-center">
                     <div class="col-6 image-container">

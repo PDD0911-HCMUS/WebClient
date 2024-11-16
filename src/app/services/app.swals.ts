@@ -34,4 +34,15 @@ export class AppSwal {
 
         return selectOption;
     }
+
+    async showLoading(){
+        const selectOption = await Swal.fire({
+            title: "Loading",
+            // icon: "success",
+            imageUrl: "./assets/loading.gif",
+            showConfirmButton: false,
+        });
+
+        return selectOption;
+    }
  }

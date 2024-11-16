@@ -5,6 +5,7 @@
     cursor: pointer;
     transition: transform .9s;
     margin-top: 150px;
+    border-radius: 100px;
 }
 
 .logo-main:hover{

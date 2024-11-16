@@ -19,7 +19,6 @@ interface Triplet {
 
 export class RetrievalByImageComponent {
   title = 'WebClient';
-  public CopyText: any;
 
   public dataRespone: any;
 
@@ -62,21 +61,7 @@ export class RetrievalByImageComponent {
     this.apiRoot = appService.apiRoot;
   }
 
-  getRows(images: any[], triplets: any[]): any[][] {
-    const rows_image = [];
-    const rows_triplet = [];
-
-    for (let i = 0; i < images.length; i += 3) {
-      rows_image.push(images.slice(i, i + 3));
-      rows_triplet.push(triplets.slice(i, i + 3))
-    }
-
-    console.log(rows_image, rows_triplet)
-
-    return [rows_image, rows_triplet];
-  }
-
-  getRows2(triplets: any[]): any[][] {
+  getRows(triplets: any[]): any[][] {
     const rows_triplet = [];
 
     for (let i = 0; i < triplets.length; i += 3) {
@@ -87,7 +72,6 @@ export class RetrievalByImageComponent {
   }
 
   public onClickClear(){
-    this.CopyText = "";
     this.isData = false;
   }
 
@@ -148,6 +132,7 @@ export class RetrievalByImageComponent {
 
   async onClickSearch(){
     this.isLoadingRev = true;
+    this.appSwal.showLoading();
     this.isDataRev = false;
     const tripletStrings = this.triplets.map(triplet => `${triplet.subject} ${triplet.relation} ${triplet.object}`);
     const data = {
