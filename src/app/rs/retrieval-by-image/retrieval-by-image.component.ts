@@ -139,7 +139,8 @@ export class RetrievalByImageComponent {
       triplet: tripletStrings
     };
     console.log(data);
-    const result = await this.appService.doPOST('rev/rev-jaccard', data);
+    // const result = await this.appService.doPOST('rev/rev-jaccard', data);
+    const result = await this.appService.doPOST('rev_v2/rev', data);
     result.subscribe(
       (r) => {
         this.dataRespone = r;
@@ -149,7 +150,7 @@ export class RetrievalByImageComponent {
           this.imageRev = this.dataRespone.Data['imgs'];
           this.tripletRev = this.dataRespone.Data['triplets'];
           this.appSwal.showPopup();
-          console.log(this.tripletRev)
+          console.log(this.imageRev)
         }
         else{
           this.appSwal.showFailure(this.dataRespone.Msg)
