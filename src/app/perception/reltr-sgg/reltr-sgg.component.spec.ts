@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TrafficSggComponent } from './traffic-sgg.component';
+import { RelTRSggComponent } from './reltr-sgg.component';
 
-describe('TrafficSggComponent', () => {
-  let component: TrafficSggComponent;
-  let fixture: ComponentFixture<TrafficSggComponent>;
+describe('RelTRSggComponent', () => {
+  let component: RelTRSggComponent;
+  let fixture: ComponentFixture<RelTRSggComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [TrafficSggComponent]
+      declarations: [RelTRSggComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(TrafficSggComponent);
+    fixture = TestBed.createComponent(RelTRSggComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

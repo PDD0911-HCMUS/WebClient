@@ -2,16 +2,16 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
-import { RetrievalTrafficComponent } from './rs/retrieval-traffic/retrieval-traffic.component';
-import { TrafficSggComponent } from './sgg/traffic-sgg/traffic-sgg.component';
-import { RetrievalByImageComponent } from './rs/retrieval-by-image/retrieval-by-image.component';
+import { RetrievalTrafficComponent } from './retrieval/retrieval-traffic/retrieval-traffic.component';
+import { RelTRSggComponent } from './perception/reltr-sgg/reltr-sgg.component';
+import { RetrievalIRESGCL } from './retrieval/retrieval-IRESGCL/retrieval-IRESGCL.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
   { path: 'rs/retrieval/traffic1', component: RetrievalTrafficComponent },
-  { path: 'sg/sgg/traffic', component: TrafficSggComponent },
-  { path: 'rs/retrieval/traffic', component: RetrievalByImageComponent }
+  { path: 'perception/reltr-ssg', component: RelTRSggComponent },
+  { path: 'retrieval/retrieval-IRESGCL', component: RetrievalIRESGCL }
   
 ];
 

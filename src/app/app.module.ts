@@ -1,35 +1,46 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+// Import Angular Material
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatTooltipModule } from '@angular/material/tooltip';
+
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { RetrievalTrafficComponent } from './rs/retrieval-traffic/retrieval-traffic.component';
+import { RetrievalTrafficComponent } from './retrieval/retrieval-traffic/retrieval-traffic.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderMenuComponent } from './header-menu/header-menu.component';
 import { FooterMenuComponent } from './footer-menu/footer-menu.component';
-import { TrafficSggComponent } from './sgg/traffic-sgg/traffic-sgg.component';
-import { RetrievalByImageComponent } from './rs/retrieval-by-image/retrieval-by-image.component';
+import { RelTRSggComponent } from './perception/reltr-sgg/reltr-sgg.component';
+import { RetrievalIRESGCL } from './retrieval/retrieval-IRESGCL/retrieval-IRESGCL.component';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 @NgModule({
   declarations: [
     AppComponent,
     RetrievalTrafficComponent,
-    TrafficSggComponent,
+    RelTRSggComponent,
     HomeComponent,
     HeaderMenuComponent,
     FooterMenuComponent,
-    RetrievalByImageComponent
+    RetrievalIRESGCL
   ],
   imports: [
     BrowserModule,
     NgbModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MatTooltipModule
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

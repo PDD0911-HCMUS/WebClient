@@ -5,7 +5,7 @@ import { AppService } from '../../services/app.services';
 @Component({
   selector: 'app-retrieval-traffic',
   templateUrl: './retrieval-traffic.component.html',
-  styleUrl: './retrieval-traffic.component.css'
+  styleUrl: './retrieval-traffic.component.scss'
 })
 export class RetrievalTrafficComponent {
   title = 'WebClient';

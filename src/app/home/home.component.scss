@@ -5,11 +5,11 @@
     cursor: pointer;
     transition: transform .9s;
     margin-top: 150px;
-    border-radius: 100px;
+    border-radius: 120px;
 }
 
 .logo-main:hover{
-    transform: scale(1.5);
+    transform: scale(1.25);
 }
 
 @media (min-width: 768px) { /* Cho máy tính bảng và máy tính để bàn */

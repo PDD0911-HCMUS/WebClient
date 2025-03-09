@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { AppService } from '../../services/app.services';
 import { firstValueFrom } from 'rxjs';
+import Swal from 'sweetalert2';
 import { AppSwal } from '../../services/app.swals';
 
 interface Triplet {
@@ -11,18 +12,20 @@ interface Triplet {
   object: string;
 }
 @Component({
-  selector: 'app-traffic-sgg',
-  templateUrl: './traffic-sgg.component.html',
-  styleUrl: './traffic-sgg.component.css'
+  selector: 'app-retrieval-IRESGCL',
+  templateUrl: './retrieval-IRESGCL.component.html',
+  styleUrl: './retrieval-IRESGCL.component.scss'
 })
-export class TrafficSggComponent {
+
+export class RetrievalIRESGCL {
   title = 'WebClient';
-  public CopyText: any;
 
   public dataRespone: any;
 
   isData = false;
+  isDataRev = false;
   isLoading: boolean = false;
+  isLoadingRev: boolean = false;
 
   fileToUpload: File | null = null;
 
@@ -39,8 +42,13 @@ export class TrafficSggComponent {
   imageSrc: string | ArrayBuffer | null = null;
 
   displayStyle = "none";
+  displayStyleSG = "none";
   detailId = 0;
 
+  imageRev = [];
+  tripletRev = [];
+
+  tripRev: Triplet[] = [];
   apiRoot: any;
 
   constructor(
@@ -53,52 +61,22 @@ export class TrafficSggComponent {
     this.apiRoot = appService.apiRoot;
   }
 
-  ngOnInit(): void {}
+  getRows(triplets: any[]): any[][] {
+    const rows_triplet = [];
 
-  // public open(modal: any): void {
-  //   this.modalService.open(modal);
-  // }
-
-  async onClickSearch(){
-    this.isLoading = true;
-    this.isData = false;
-    console.log(this.CopyText);
-    const result = await this.appService.doGET('STS/'+ this.CopyText, null);
-    result.subscribe(
-      (r) => {
-        this.dataRespone = r;
-        console.log(this.dataRespone.Data);
-        this.dataRespone.Data.forEach((element: any) => {
-          console.log(element);
-        });
-        this.isData = true;
-        this.isLoading = false;
-        return this.dataRespone.Data
-      }
-    );
-  }
-
-  getRows(images: any[]): any[][] {
-    const rows = [];
-
-    for (let i = 0; i < images.length; i += 3) {
-      rows.push(images.slice(i, i + 3));
+    for (let i = 0; i < triplets.length; i += 3) {
+      rows_triplet.push(triplets.slice(i, i + 3))
     }
 
-    return rows;
+    return rows_triplet;
   }
 
   public onClickClear(){
-    this.CopyText = "";
-  }
-
-  public onClickClearRes(){
     this.isData = false;
   }
 
-  handleUploaderEvent(e: Event) {
-    const { data: files } = (e as CustomEvent).detail;
-    this.file = files;
+  public onClickClearRes(){
+    this.isDataRev = false;
   }
 
   // On file Select
@@ -152,12 +130,58 @@ export class TrafficSggComponent {
 
   }
 
+  async onClickSearch(){
+    this.isLoadingRev = true;
+    this.appSwal.showLoading();
+    this.isDataRev = false;
+    const tripletStrings = this.triplets.map(triplet => `${triplet.subject} ${triplet.relation} ${triplet.object}`);
+    const data = {
+      triplet: tripletStrings
+    };
+    console.log(data);
+    // const result = await this.appService.doPOST('rev/rev-jaccard', data);
+    const result = await this.appService.doPOST('rev/rev', data);
+    result.subscribe(
+      (r) => {
+        this.dataRespone = r;
+        this.isLoadingRev = false;
+        this.isDataRev = true;
+        if(this.dataRespone.Data != null && this.dataRespone.Status != false){
+          this.imageRev = this.dataRespone.Data['imgs'];
+          this.tripletRev = this.dataRespone.Data['triplets'];
+          this.appSwal.showPopup();
+          console.log(this.imageRev)
+          console.log(this.dataRespone.Data)
+        }
+        else{
+          this.appSwal.showFailure(this.dataRespone.Msg)
+        }
+        
+      }
+    );
+  }
+
   openPopup(id: any) { 
-    this.displayStyle = "flex"; 
-    this.detailId = id
+    if(id == 1){
+      this.displayStyleSG = "flex"; 
+      this.detailId = id
+    }
+    if(id == 2){
+      this.displayStyle = "flex"; 
+      this.detailId = id
+    }
+    
   } 
-  closePopup() { 
-    this.displayStyle = "none"; 
-    this.detailId = 0
+
+  closePopup(id: any) { 
+    if(id == 1){
+      this.displayStyleSG = "none"; 
+      this.detailId = 0
+    }
+    if(id == 2){
+      this.displayStyle = "none"; 
+      this.detailId = 0
+    }
   } 
+
 }
