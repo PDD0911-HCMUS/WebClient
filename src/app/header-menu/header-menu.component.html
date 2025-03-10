@@ -1,24 +1,39 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light nav-cus">
-    <div class="container-fluid">
-        <img class="logo-main" src="./assets/logo3.png">
-        <!-- <img class="logo-main" src="./assets/avatar.png"> -->
-        <a class="navbar-brand" href="#">
-            <h1>System Demo Application</h1>
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        
+        <!-- Logo & Tiêu đề -->
+        <img class="logo-main" src="./assets/logo3.png" alt="Logo"  style="cursor: pointer;" (click)="navigateTo('/home')">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <span class="title-header"><i class="fa-solid fa-house" style="padding-right: 5px;"></i>Demo Application</span>
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+        <!-- Nút Toggle cho Mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+            data-bs-target="#navbarSupportedContent" 
+            aria-controls="navbarSupportedContent" 
+            aria-expanded="false" 
+            aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item hover-link">
-                    <a class="nav-link" href="sg/sgg/traffic">Scene Graph</a>
-                </li>
-                <li class="nav-item hover-link">
-                    <a class="nav-link" aria-current="page" href="rs/retrieval/traffic">Retrieval System</a>
-                </li>
-                
-            </ul>
+            <ng-container *ngFor="let menu of topic_menus">
+                <!-- Nút hiển thị menu chính -->
+                <button class="mat-button-cus" mat-button [matMenuTriggerFor]="menuRef">
+                    <i [class]="menu.fontawesome" style="padding-right: 5px;"></i>{{ menu.topic_menu }}
+                </button>
+                <!-- Menu con tương ứng -->
+                <mat-menu #menuRef="matMenu" yPosition="below">
+                <ng-container *ngFor="let sub of getSubsByMenuId(menu.id)">
+                    <button mat-menu-item (click)="navigateTo(sub.url)" class="custom-menu">
+                        {{ sub.topic_menu_sub }}
+                    </button>
+                </ng-container>
+                </mat-menu>
+            </ng-container>
         </div>
-        <img class="logo-main" src="./assets/bot.webp">
+          
+        <!-- Biểu tượng Bot -->
+        <img class="logo-main" src="./assets/bot.webp" alt="Bot Icon">
     </div>
 </nav>

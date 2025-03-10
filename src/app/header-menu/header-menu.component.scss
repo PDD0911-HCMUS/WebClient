@@ -16,3 +16,41 @@
     opacity: 5;
     background-color: aliceblue;
 }
+
+.title-header{
+    font-weight: 700 !important;
+    text-align: center;
+    color: #65BBDF;
+}
+
+.mat-button-cus{
+    border: none;
+    background: none;
+    font-weight: 500;
+    color: #5199b8;
+    font-size: x-large;
+    height: 40px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.1s ease;
+}
+
+.mat-button-cus:hover {
+    background-color: #DBF3FF; /* Màu xanh nhạt */
+    transform: translateY(-3px); /* Dịch chuyển lên trên 3px */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+::ng-deep .mat-menu-panel.custom-menu {
+    background-color: black;
+}
+
+::ng-deep .custom-menu .mat-menu-item {
+    font-size: 16px;
+    color: #333;
+    transition: background-color 0.3s;
+}
+
+::ng-deep .custom-menu .mat-menu-item:hover {
+    background-color: #e0f7fa;
+}

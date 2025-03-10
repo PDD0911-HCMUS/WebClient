@@ -17,6 +17,8 @@ import { FooterMenuComponent } from './footer-menu/footer-menu.component';
 import { RelTRSggComponent } from './perception/reltr-sgg/reltr-sgg.component';
 import { RetrievalIRESGCL } from './retrieval/retrieval-IRESGCL/retrieval-IRESGCL.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MsFloranceV2RgComponent } from './perception/ms-florance-v2-rg/ms-florance-v2-rg.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     HomeComponent,
     HeaderMenuComponent,
     FooterMenuComponent,
-    RetrievalIRESGCL
+    RetrievalIRESGCL,
+    MsFloranceV2RgComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
     HttpClientModule,
     MatPaginatorModule,
     MatTableModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatMenuModule
   ],
   providers: [
     provideAnimationsAsync()

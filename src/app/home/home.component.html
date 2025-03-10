@@ -2,24 +2,12 @@
 
 <div class="container-fluid main-panel" style="height: 100%;">
     <div class="row">
-        <div class="col-md-4" >
-            <a href="perception/reltr-ssg" [matTooltip]="'Scene graph generation'" matTooltipPosition="above">
-                <img class="logo-main" src="./assets/logo-sgg.webp" alt="Scene graph generation">
-            </a>
-            
+
+        <div class="col-md-4" style="margin-top: 50px;" *ngFor="let topic of topics; let i = index">
+            <img class="logo-main" [src]="topic.logo" (click)="navigateTo(topic.url)" 
+                style="cursor: pointer;" [matTooltip]="topic.topic" matTooltipPosition="above">
         </div>
-        <div class="col-md-4" >
-            <a href="retrieval/retrieval-IRESGCL" [matTooltip]="'Retrieval System'" matTooltipPosition="above">
-                <img class="logo-main" src="./assets/logo-rs.webp">
-            </a>
-            
-        </div>
-        <div class="col-md-4" >
-            <a href="perception/reltr-ssg" [matTooltip]="'Region Generation'" matTooltipPosition="above">
-                <img class="logo-main" src="./assets/logo-rg.webp">
-            </a>
-            
-        </div>
+
     </div>
 </div>
 
