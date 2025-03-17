@@ -95,24 +95,21 @@
     <!-- <div class="loading-container" *ngIf="this.isLoadingRev">
         <img src="./assets/loading.gif" class="image-loading">
     </div> -->
+
     <div class="container" *ngIf="isDataRev">
-        <div class="row image-show" *ngFor="let row of getRows(this.imageRev); let idx = index">
-            <div class="col-4 d-flex justify-content-center align-items-center" *ngFor="let image of row">
-                <div class="row align-items-center">
-                    <div class="col-12 image-container">
-                        <img class="im-rev" src="{{apiRoot}}/rev/images/{{image}}" alt="{{image.image_id}}">
-                    </div>
-                    <!-- <div class="col-6 triplet-container">
-                        <div class="triplet-rev" *ngFor="let triplet of image.trip">
-                            <span class="subject">{{ triplet.subject }}</span> 
-                            <span class="relation">{{ triplet.relation }}</span> 
-                            <span class="object">{{ triplet.object }}</span>
-                        </div>
-                    </div> -->
-                </div>
-                
+        <div class="row">
+            <div class="col-md-4 col-sm-6 col-12 d-flex justify-content-center align-items-center image-container"
+                 *ngFor="let image of displayedImages">
+                <img class="im-rev img-fluid" [src]="apiRoot + '/rev/images/' + image">
             </div>
         </div>
+        <mat-paginator class="page-layout"
+            [length]="imageRev.length" 
+            [pageSize]="pageSize" 
+            [pageSizeOptions]="[3, 6, 9]" 
+            showFirstLastButtons
+            (page)="onPageChange($event)">
+        </mat-paginator>
     </div>
 </div>
 

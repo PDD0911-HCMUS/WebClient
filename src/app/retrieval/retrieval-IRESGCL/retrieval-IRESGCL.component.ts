@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
 import { AppService } from '../../services/app.services';
 import { firstValueFrom } from 'rxjs';
 import Swal from 'sweetalert2';
 import { AppSwal } from '../../services/app.swals';
-
+import { MatPaginator } from '@angular/material/paginator';
 interface Triplet {
   subject: string;
   relation: string;
@@ -18,6 +18,9 @@ interface Triplet {
 })
 
 export class RetrievalIRESGCL {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  pageSize = 6;
+  pageIndex = 0;
   title = 'WebClient';
 
   public dataRespone: any;
@@ -45,7 +48,8 @@ export class RetrievalIRESGCL {
   displayStyleSG = "none";
   detailId = 0;
 
-  imageRev = [];
+  imageRev: string[] = [];
+  displayedImages: string[] = [];
   tripletRev = [];
 
   tripRev: Triplet[] = [];
@@ -139,7 +143,6 @@ export class RetrievalIRESGCL {
       triplet: tripletStrings
     };
     console.log(data);
-    // const result = await this.appService.doPOST('rev/rev-jaccard', data);
     const result = await this.appService.doPOST('rev/rev', data);
     result.subscribe(
       (r) => {
@@ -152,6 +155,8 @@ export class RetrievalIRESGCL {
           this.appSwal.showPopup();
           console.log(this.imageRev)
           console.log(this.dataRespone.Data)
+
+          this.updateDisplayedImages();
         }
         else{
           this.appSwal.showFailure(this.dataRespone.Msg)
@@ -182,6 +187,18 @@ export class RetrievalIRESGCL {
       this.displayStyle = "none"; 
       this.detailId = 0
     }
-  } 
+  }
+  
+  updateDisplayedImages() {
+    const start = this.pageIndex * this.pageSize;
+    const end = start + this.pageSize;
+    this.displayedImages = this.imageRev.slice(start, end);
+  }
+
+  onPageChange(event: any) {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.updateDisplayedImages();
+  }
 
 }
