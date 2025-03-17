@@ -11,8 +11,7 @@ import { AppConsts } from './app.consts';
     providedIn: 'root'
 })
 export class AppService implements OnInit {
-    apiRoot = 'http://10.118.1.3:8009/';
-    portalRoot = 'http://localhost:4200/';
+    apiRoot = 'http://localhost:8009/';
     
     headers: any;
     options: any;
