@@ -1,0 +1,74 @@
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    //   background-color: #f0f2f5;
+    // background: linear-gradient(90deg, #91e2ff, #DBF3FF);
+    padding: 1rem;
+}
+
+.login-card {
+    width: 80%;
+    // max-width: 380px;
+    // padding: 3px;
+    border: none;
+    // border-radius: 2%;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    background-color: linear-gradient(90deg, #91e2ff, #DBF3FF);
+
+    h2 {
+        font-weight: 600;
+        // color: #333;
+    }
+}
+
+.input-group-text {
+    background-color: #e9ecef;
+    border: none;
+    font-size: 1.1rem;
+}
+
+.form-control {
+    border-left: none;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.illustration {
+    max-width: 100%;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    /* Căn giữa ngang */
+    align-items: center;
+    /* Căn giữa dọc */
+    margin-right: auto;
+    // border-radius: 3%;
+}
+
+.login-content {
+    display: flex;
+    justify-content: center;
+    /* Căn giữa ngang */
+    align-items: center;
+    /* Căn giữa dọc */
+    height: 100%;
+    /* Bạn cần đặt chiều cao nếu container chưa có */
+    margin-right: 100px;
+    margin-left: -100px;
+}

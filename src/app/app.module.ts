@@ -19,6 +19,8 @@ import { RetrievalIRESGCL } from './retrieval/retrieval-IRESGCL/retrieval-IRESGC
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { MsFloranceV2RgComponent } from './perception/ms-florance-v2-rg/ms-florance-v2-rg.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { LoginComponent } from './user/login/login.component';
+import { RegisterComponent } from './user/register/register.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,9 @@ import { MatMenuModule } from '@angular/material/menu';
     HeaderMenuComponent,
     FooterMenuComponent,
     RetrievalIRESGCL,
-    MsFloranceV2RgComponent
+    MsFloranceV2RgComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
