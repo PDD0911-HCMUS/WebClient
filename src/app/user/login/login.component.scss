@@ -68,7 +68,7 @@ a {
     align-items: center;
     /* Căn giữa dọc */
     height: 100%;
-    /* Bạn cần đặt chiều cao nếu container chưa có */
-    margin-right: 100px;
-    margin-left: -100px;
+    // margin-right: 100px;
+    // margin-left: -100px;
+    margin: auto !important
 }
