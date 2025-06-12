@@ -1,56 +1,52 @@
-<div class="container-fluid main-panel" style="height: 100%;">
-    <div class="login-wrapper">
-        <div class="card login-card">
-            <div class="row">
-                <div class="col-md-7">
-                    <img src="assets/login3.gif" alt="Illustration" class="illustration" />
-                </div>
-                <div class="col-md-5">
-                    <div class="row login-content">
-                        
-                        <form (ngSubmit)="onLogin()">
-                            <h2 class="text-center mb-6 form-label title">Welcome Back</h2>
-                            <!-- Username -->
-                            <div class="mb-3">
-                                <label for="username" class="form-label title">Email or Username</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                    </span>
-                                    <input id="username" name="username" type="text" class="form-control"
-                                        placeholder="Enter email or username" [(ngModel)]="username" required />
-                                </div>
-                            </div>
-
-                            <!-- Password -->
-                            <div class="mb-3">
-                                <label for="password" class="form-label title">Password</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                    </span>
-                                    <input id="password" name="password" type="password" class="form-control"
-                                        placeholder="Enter password" [(ngModel)]="password" required />
-                                </div>
-                            </div>
-
-                            <!-- Button -->
-                            <button type="submit" class="btn btn-primary w-100 mb-3">
-                                Login
-                            </button>
-
-                            <!-- Register link -->
-                            <p class="text-center">
-                                Not registered yet?
-                                <a [href]="this.register">Create an account</a>
-                            </p>
-                        </form>
-                    </div>
-
-                </div>
+<div class="login-wrapper">
+    <div class="card login-card">
+        <div class="row">
+            <div class="col-md-7">
+                <img src="assets/login3.gif" alt="Illustration" class="illustration" />
             </div>
+            <div class="col-md-5">
+                <div class="row login-content">
 
+                    <form (ngSubmit)="onLogin()">
+                        <h2 class="text-center mb-6 form-label title">Welcome Back</h2>
+                        <!-- Username -->
+                        <div class="mb-3">
+                            <label for="username" class="form-label title">Email or User name</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                </span>
+                                <input id="username" name="username" type="text" class="form-control"
+                                    placeholder="Enter email or username" [(ngModel)]="username" required />
+                            </div>
+                        </div>
 
+                        <!-- Password -->
+                        <div class="mb-3">
+                            <label for="password" class="form-label title">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                </span>
+                                <input id="password" name="password" type="password" class="form-control"
+                                    placeholder="Enter password" [(ngModel)]="password" required />
+                            </div>
+                        </div>
+
+                        <!-- Button -->
+                        <button type="submit" class="btn btn-primary w-100 mb-3">
+                            Login
+                        </button>
+
+                        <!-- Register link -->
+                        <p class="text-center">
+                            Not registered yet?
+                            <a [href]="this.register">Create an account</a>
+                        </p>
+                    </form>
+                </div>
+
+            </div>
         </div>
+
+
     </div>
 </div>
-
-<app-footer-menu></app-footer-menu>
