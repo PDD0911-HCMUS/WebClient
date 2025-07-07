@@ -6,18 +6,19 @@ import { firstValueFrom } from 'rxjs';
 import Swal from 'sweetalert2';
 import { AppSwal } from '../../services/app.swals';
 import { MatPaginator } from '@angular/material/paginator';
+
 interface Triplet {
   subject: string;
   relation: string;
   object: string;
 }
-@Component({
-  selector: 'app-retrieval-IRESGCL',
-  templateUrl: './retrieval-IRESGCL.component.html',
-  styleUrl: './retrieval-IRESGCL.component.scss'
-})
 
-export class RetrievalIRESGCL {
+@Component({
+  selector: 'app-retrieval-iresg',
+  templateUrl: './retrieval-iresg.component.html',
+  styleUrl: './retrieval-iresg.component.scss'
+})
+export class RetrievalIRESGComponent {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   pageSize = 6;
   pageIndex = 0;
@@ -32,12 +33,13 @@ export class RetrievalIRESGCL {
 
   fileToUpload: File | null = null;
 
+  triplets: Triplet[] = [];
+  originalTriplets: string[] = [];
+
   imageObject = null;
   imageGraph = null;
   imageTriplet = null;
   tripletContent = null;
-
-  triplets: Triplet[] = [];
 
   status: "initial" | "uploading" | "success" | "fail" = "initial"; // Variable to store file status
   file: File | null = null; // Variable to store file
@@ -52,7 +54,7 @@ export class RetrievalIRESGCL {
   displayedImages: string[] = [];
   tripletRev = [];
 
-  tripRev: Triplet[] = [];
+  tripRev: string[] = [];
   apiRoot: any;
 
   constructor(
@@ -75,11 +77,11 @@ export class RetrievalIRESGCL {
     return rows_triplet;
   }
 
-  public onClickClear(){
+  public onClickClear() {
     this.isData = false;
   }
 
-  public onClickClearRes(){
+  public onClickClearRes() {
     this.isDataRev = false;
   }
 
@@ -100,17 +102,17 @@ export class RetrievalIRESGCL {
     this.status = 'uploading';
     this.isLoading = true;
     this.isData = false;
-    if (this.file){
+    if (this.file) {
 
       const formData = await this.appService.uploadFile(this.file)
       const result = await firstValueFrom(this.appService.doPOST('sgg/sgg-gen', formData));
-      console.log(formData);
+
       this.dataRespone = result;
-      if(this.dataRespone.Data != null && this.dataRespone.Status != false){
+      if (this.dataRespone.Data != null && this.dataRespone.Status != false) {
         this.status = 'success';
         this.isLoading = false;
         this.isData = true;
-        console.log(this.dataRespone);
+        // console.log(this.dataRespone);
         this.imageObject = this.dataRespone.Data["objectDet"];
         this.imageGraph = this.dataRespone.Data["graphDet"];
         this.imageTriplet = this.dataRespone.Data["tripletDet"];
@@ -123,72 +125,108 @@ export class RetrievalIRESGCL {
 
         }));
 
+        this.originalTriplets = this.triplets.map(triplet => `${triplet.subject} ${triplet.relation} ${triplet.object}`);
+
         this.appSwal.showSuccess(this.dataRespone.Msg);
       }
-      else{
+      else {
         this.appSwal.showFailure(this.dataRespone.Msg);
         this.status = 'fail';
       }
-      
+
     }
 
   }
+  arraysEqual(arr1: string[], arr2: string[]): boolean {
+    if (arr1.length !== arr2.length) return false;
+    for (let i = 0; i < arr1.length; i++) {
+      if (arr1[i] !== arr2[i]) return false;
+    }
+    return true;
+  }
 
-  async onClickSearch(){
+  getEditStatus(): string {
+    const currentTriplets = this.triplets.map(triplet => `${triplet.subject} ${triplet.relation} ${triplet.object}`);
+    const isEdited = !this.arraysEqual(currentTriplets, this.originalTriplets);
+    return isEdited ? "1" : "0";
+  }
+
+
+  async onClickSearch() {
     this.isLoadingRev = true;
     this.appSwal.showLoading();
     this.isDataRev = false;
-    const tripletStrings = this.triplets.map(triplet => `${triplet.subject} ${triplet.relation} ${triplet.object}`);
-    const data = {
-      triplet: tripletStrings
-    };
-    console.log(data);
-    const result = await this.appService.doPOST('rev/rev', data);
-    result.subscribe(
-      (r) => {
-        this.dataRespone = r;
-        this.isLoadingRev = false;
-        this.isDataRev = true;
-        if(this.dataRespone.Data != null && this.dataRespone.Status != false){
-          this.imageRev = this.dataRespone.Data['imgs'];
-          this.tripletRev = this.dataRespone.Data['triplets'];
-          this.appSwal.showPopup();
-          console.log(this.imageRev)
-          console.log(this.dataRespone.Data)
+    if (this.file) {
+      const formData = new FormData();
+      const tripletStrings = this.triplets.map(triplet => `${triplet.subject} ${triplet.relation} ${triplet.object}`);
+      const edit = this.getEditStatus();
 
-          this.updateDisplayedImages();
+      formData.append('file', this.file);
+      formData.append('triplets', JSON.stringify(tripletStrings));
+      formData.append('edit', edit);
+
+      const result = await this.appService.doPOST('rev_v2/retrieve', formData);
+      result.subscribe(
+        (r) => {
+          this.dataRespone = r;
+          this.isLoadingRev = false;
+          this.isDataRev = true;
+          if (this.dataRespone.Data != null && this.dataRespone.Status != false) {
+            this.imageRev = this.dataRespone.Data['imgs'];
+            this.tripletRev = this.dataRespone.Data['triplets'];
+            this.appSwal.showPopup();
+            // console.log(this.imageRev)
+            // console.log(this.dataRespone.Data)
+
+            this.updateDisplayedImages();
+          }
+          else {
+            this.appSwal.showFailure(this.dataRespone.Msg)
+          }
+
         }
-        else{
-          this.appSwal.showFailure(this.dataRespone.Msg)
-        }
-        
-      }
-    );
+      );
+
+      console.log(tripletStrings);
+      console.log(this.originalTriplets);
+      console.log(edit);
+    }
+
   }
 
-  openPopup(id: any) { 
-    if(id == 1){
-      this.displayStyleSG = "flex"; 
-      this.detailId = id
+  addTriplet() {
+    if (this.triplets.length < 10) {
+      this.triplets.push({ subject: '', relation: '', object: '' });
     }
-    if(id == 2){
-      this.displayStyle = "flex"; 
-      this.detailId = id
-    }
-    
-  } 
+  }
 
-  closePopup(id: any) { 
-    if(id == 1){
-      this.displayStyleSG = "none"; 
+  removeTriplet(index: number) {
+    this.triplets.splice(index, 1);
+  }
+
+  openPopup(id: any) {
+    if (id == 1) {
+      this.displayStyleSG = "flex";
+      this.detailId = id
+    }
+    if (id == 2) {
+      this.displayStyle = "flex";
+      this.detailId = id
+    }
+
+  }
+
+  closePopup(id: any) {
+    if (id == 1) {
+      this.displayStyleSG = "none";
       this.detailId = 0
     }
-    if(id == 2){
-      this.displayStyle = "none"; 
+    if (id == 2) {
+      this.displayStyle = "none";
       this.detailId = 0
     }
   }
-  
+
   updateDisplayedImages() {
     const start = this.pageIndex * this.pageSize;
     const end = start + this.pageSize;
@@ -200,5 +238,4 @@ export class RetrievalIRESGCL {
     this.pageSize = event.pageSize;
     this.updateDisplayedImages();
   }
-
 }

@@ -58,9 +58,15 @@
                         </div>
                         <div class="col-md-6 triplets-block">
                             <div *ngFor="let triplet of triplets; let i = index" class="triplet">
+                                <button (click)="removeTriplet(i)" class="btn btn-sm btn-danger" style="margin-right: 5px;">-</button>
                                 <input [(ngModel)]="triplet.subject" placeholder="Subject" class="subject">
                                 <input [(ngModel)]="triplet.relation" placeholder="Relation" class="relation">
                                 <input [(ngModel)]="triplet.object" placeholder="Object" class="object">
+                                
+                            </div>
+                            <div *ngIf="triplets.length < 10" style="margin-top: 8px;"
+                                class="center-btn col-md-6">
+                                <button (click)="addTriplet()" class="btn btn-outline-success btn-search">+</button>
                             </div>
                         </div>
                     </div>

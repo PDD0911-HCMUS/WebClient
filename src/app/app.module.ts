@@ -21,6 +21,8 @@ import { MsFloranceV2RgComponent } from './perception/ms-florance-v2-rg/ms-flora
 import { MatMenuModule } from '@angular/material/menu';
 import { LoginComponent } from './user/login/login.component';
 import { RegisterComponent } from './user/register/register.component';
+import { RetrievalIRESGComponent } from './retrieval/retrieval-iresg/retrieval-iresg.component';
+import { PageManagementComponent } from './pages/page-management/page-management.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +35,9 @@ import { RegisterComponent } from './user/register/register.component';
     RetrievalIRESGCL,
     MsFloranceV2RgComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    RetrievalIRESGComponent,
+    PageManagementComponent
   ],
   imports: [
     BrowserModule,

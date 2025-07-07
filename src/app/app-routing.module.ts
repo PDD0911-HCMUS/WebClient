@@ -7,6 +7,8 @@ import { RelTRSggComponent } from './perception/reltr-sgg/reltr-sgg.component';
 import { RetrievalIRESGCL } from './retrieval/retrieval-IRESGCL/retrieval-IRESGCL.component';
 import { LoginComponent } from './user/login/login.component';
 import { RegisterComponent } from './user/register/register.component';
+import { RetrievalIRESGComponent } from './retrieval/retrieval-iresg/retrieval-iresg.component';
+import { PageManagementComponent } from './pages/page-management/page-management.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/user/login', pathMatch: 'full' },
@@ -15,7 +17,9 @@ const routes: Routes = [
   { path: 'perception/reltr-ssg', component: RelTRSggComponent },
   { path: 'retrieval/retrieval-IRESGCL', component: RetrievalIRESGCL },
   { path: 'user/login', component: LoginComponent},
-  { path: 'user/register', component: RegisterComponent}
+  { path: 'user/register', component: RegisterComponent},
+  { path: 'retrieval/retrieval-iresg', component: RetrievalIRESGComponent},
+  { path: 'pages/page-management', component: PageManagementComponent}
   
 ];
 
