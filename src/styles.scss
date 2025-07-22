@@ -48,3 +48,41 @@
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/* Class chung cho tất cả nút */
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Class riêng cho nút Thêm */
+.btn-add {
+  background-color: #28a745; /* xanh lá */
+}
+.btn-add:hover {
+  background-color: #218838;
+}
+
+/* Class riêng cho nút Sửa */
+.btn-edit {
+  background-color: #ffc107; /* vàng */
+  color: black;
+}
+.btn-edit:hover {
+  background-color: #e0a800;
+}
+
+/* Class riêng cho nút Xoá */
+.btn-delete {
+  background-color: #dc3545; /* đỏ */
+}
+.btn-delete:hover {
+  background-color: #c82333;
+}
+
