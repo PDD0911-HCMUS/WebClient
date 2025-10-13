@@ -23,6 +23,7 @@ import { LoginComponent } from './user/login/login.component';
 import { RegisterComponent } from './user/register/register.component';
 import { RetrievalIRESGComponent } from './retrieval/retrieval-iresg/retrieval-iresg.component';
 import { PageManagementComponent } from './pages/page-management/page-management.component';
+import { CommonSettingComponent } from './setting/common-setting/common-setting.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { PageManagementComponent } from './pages/page-management/page-management
     LoginComponent,
     RegisterComponent,
     RetrievalIRESGComponent,
-    PageManagementComponent
+    PageManagementComponent,
+    CommonSettingComponent
   ],
   imports: [
     BrowserModule,

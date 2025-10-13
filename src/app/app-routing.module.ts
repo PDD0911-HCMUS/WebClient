@@ -9,6 +9,7 @@ import { LoginComponent } from './user/login/login.component';
 import { RegisterComponent } from './user/register/register.component';
 import { RetrievalIRESGComponent } from './retrieval/retrieval-iresg/retrieval-iresg.component';
 import { PageManagementComponent } from './pages/page-management/page-management.component';
+import { CommonSettingComponent } from './setting/common-setting/common-setting.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/user/login', pathMatch: 'full' },
@@ -19,7 +20,8 @@ const routes: Routes = [
   { path: 'user/login', component: LoginComponent},
   { path: 'user/register', component: RegisterComponent},
   { path: 'retrieval/retrieval-iresg', component: RetrievalIRESGComponent},
-  { path: 'pages/page-management', component: PageManagementComponent}
+  { path: 'pages/page-management', component: PageManagementComponent},
+  { path: 'setting/common', component: CommonSettingComponent}
   
 ];
 

@@ -1,0 +1,30 @@
+.mat-button-cus{
+    border: none;
+    background: none;
+    font-weight: 500;
+    color: #5199b8;
+    font-size: x-large;
+    height: 40px;
+    margin-right: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.1s ease;
+    display: block; 
+    height: auto; 
+    margin: auto; 
+
+}
+
+.mat-button-cus:hover {
+    // background-color: #DBF3FF; /* Màu xanh nhạt */
+    transform: translateY(-3px); /* Dịch chuyển lên trên 3px */
+    // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.setting-icon{
+    font-size: 200px;
+    margin-bottom: 5px;
+}
+
+.setting-func{
+    margin-top: 10px;
+}

@@ -1,18 +1,17 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-light nav-cus">
     <div class="container-fluid d-flex justify-content-between align-items-center">
-        
+
         <!-- Logo & Tiêu đề -->
-        <img class="logo-main" src="./assets/logo3.png" alt="Logo"  style="cursor: pointer;" (click)="navigateTo('/home')">
+        <img class="logo-main" src="./assets/logo3.png" alt="Logo" style="cursor: pointer;"
+            (click)="navigateTo('/home')">
         <a class="navbar-brand d-flex align-items-center" href="home">
-            <span class="title-header"><i class="fa-solid fa-house" style="padding-right: 5px;"></i>Research Application</span>
+            <span class="title-header"><i class="fa-solid fa-house" style="padding-right: 5px;"></i>
+                Applications</span>
         </a>
 
         <!-- Nút Toggle cho Mobile -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-            data-bs-target="#navbarSupportedContent" 
-            aria-controls="navbarSupportedContent" 
-            aria-expanded="false" 
-            aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -24,15 +23,21 @@
                 </button>
                 <!-- Menu con tương ứng -->
                 <mat-menu #menuRef="matMenu" yPosition="below">
-                <ng-container *ngFor="let sub of getSubsByMenuId(menu.id)">
-                    <button mat-menu-item (click)="navigateTo(sub.url)" class="custom-menu">
-                        {{ sub.topic_menu_sub }}
-                    </button>
-                </ng-container>
+                    <ng-container *ngFor="let sub of getSubsByMenuId(menu.id)">
+                        <button mat-menu-item (click)="navigateTo(sub.url)" class="custom-menu">
+                            {{ sub.topic_menu_sub }}
+                        </button>
+                    </ng-container>
                 </mat-menu>
+
             </ng-container>
+
+            <button class="mat-button-cus" mat-button (click)="navigateSetting()">
+                <i class="fa fa-cog"></i>
+            </button>
+
         </div>
-          
+
         <!-- Biểu tượng Bot -->
         <img class="logo-main" src="./assets/bot.webp" alt="Bot Icon">
     </div>

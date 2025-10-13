@@ -24,7 +24,7 @@ export class HeaderMenuComponent {
       { topic_menu_sub: "Scene Graph Generation", id_menu: 1, url: "perception/reltr-ssg" },
       { topic_menu_sub: "Region Description", id_menu: 1, url: "perception/reltr-ssg" },
       
-      { topic_menu_sub: "Retrieval Based on Scene Graph", id_menu: 2, url: "retrieval/retrieval-IRESGCL" }
+      { topic_menu_sub: "Retrieval Based on Scene Graph", id_menu: 2, url: "retrieval/retrieval-iresg" }
     ]
   }
 
@@ -34,6 +34,10 @@ export class HeaderMenuComponent {
 
   getSubsByMenuId(menuId: number) {
     return this.topic_menu_subs.filter(sub => sub.id_menu === menuId);
+  }
+
+  public navigateSetting(){
+    this.router.navigateByUrl("setting/common");
   }
 
 }

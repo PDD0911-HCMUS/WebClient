@@ -57,6 +57,8 @@ export class RetrievalIRESGComponent {
   tripRev: string[] = [];
   apiRoot: any;
 
+  isDragOver = false;
+
   constructor(
     private modalService: NgbModal,
     private router: Router,
@@ -84,6 +86,32 @@ export class RetrievalIRESGComponent {
   public onClickClearRes() {
     this.isDataRev = false;
   }
+
+  onDragOver(evt: DragEvent) {
+    evt.preventDefault();      // bắt buộc để cho phép drop
+    evt.stopPropagation();
+    this.isDragOver = true;
+  }
+
+  onDragLeave(evt: DragEvent) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    this.isDragOver = false;
+  }
+
+  onDrop(evt: DragEvent) {
+    evt.preventDefault();
+    evt.stopPropagation();
+    this.isDragOver = false;
+
+    const files = evt.dataTransfer?.files;
+    if (!files || files.length === 0) return;
+
+    // Tái sử dụng logic sẵn có trong onChange
+    const fakeEvent = { target: { files } } as unknown as Event;
+    this.onChange(fakeEvent);
+  }
+
 
   // On file Select
   onChange(event: Event): void {

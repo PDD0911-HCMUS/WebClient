@@ -4,9 +4,11 @@
         <div class="col-md-6 divide-dashed">
             <div class="row custom-file">
                 <h2 class="form-label title">Input Area</h2>
-                <label class="custom-file-input">
+                <label class="custom-file-input drop-zone" role="button" tabindex="0" (click)="fileUpload.click()"
+                    (keydown.enter)="fileUpload.click()" (dragover)="onDragOver($event)"
+                    (dragleave)="onDragLeave($event)" (drop)="onDrop($event)" [class.dragover]="isDragOver">
                     <i class="fa fa-cloud-upload"> </i> Upload or Drag and drop image here.
-                    <input type="file" (change)="onChange($event)" #fileUpload />
+                    <input type="file" (change)="onChange($event)" #fileUpload accept="image/*" hidden />
                 </label>
             </div>
             <div class="row">
@@ -58,14 +60,14 @@
                         </div>
                         <div class="col-md-6 triplets-block">
                             <div *ngFor="let triplet of triplets; let i = index" class="triplet">
-                                <button (click)="removeTriplet(i)" class="btn btn-sm btn-danger" style="margin-right: 5px;">-</button>
+                                <button (click)="removeTriplet(i)" class="btn btn-sm btn-danger"
+                                    style="margin-right: 5px;">-</button>
                                 <input [(ngModel)]="triplet.subject" placeholder="Subject" class="subject">
                                 <input [(ngModel)]="triplet.relation" placeholder="Relation" class="relation">
                                 <input [(ngModel)]="triplet.object" placeholder="Object" class="object">
-                                
+
                             </div>
-                            <div *ngIf="triplets.length < 10" style="margin-top: 8px;"
-                                class="center-btn col-md-6">
+                            <div *ngIf="triplets.length < 10" style="margin-top: 8px;" class="center-btn col-md-6">
                                 <button (click)="addTriplet()" class="btn btn-outline-success btn-search">+</button>
                             </div>
                         </div>
@@ -107,7 +109,7 @@
         <div class="row">
             <div class="col-md-4 col-sm-6 col-12 d-flex justify-content-center align-items-center image-container"
                 *ngFor="let image of displayedImages">
-                <img class="im-rev img-fluid" [src]="apiRoot + '/rev/images/' + image">
+                <img class="im-rev img-fluid" [src]="apiRoot + '/rev_v2/images/' + image">
             </div>
         </div>
         <mat-paginator class="page-layout" [length]="imageRev.length" [pageSize]="pageSize"
