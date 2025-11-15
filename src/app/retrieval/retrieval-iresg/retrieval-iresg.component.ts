@@ -31,6 +31,8 @@ export class RetrievalIRESGComponent {
   isLoading: boolean = false;
   isLoadingRev: boolean = false;
 
+  showOutput = false;
+
   fileToUpload: File | null = null;
 
   triplets: Triplet[] = [];
@@ -130,6 +132,7 @@ export class RetrievalIRESGComponent {
     this.status = 'uploading';
     this.isLoading = true;
     this.isData = false;
+    this.showOutput = true;
     if (this.file) {
 
       const formData = await this.appService.uploadFile(this.file)
@@ -156,6 +159,7 @@ export class RetrievalIRESGComponent {
         this.originalTriplets = this.triplets.map(triplet => `${triplet.subject} ${triplet.relation} ${triplet.object}`);
 
         this.appSwal.showSuccess(this.dataRespone.Msg);
+        
       }
       else {
         this.appSwal.showFailure(this.dataRespone.Msg);

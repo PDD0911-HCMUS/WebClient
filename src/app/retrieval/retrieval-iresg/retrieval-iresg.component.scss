@@ -193,3 +193,52 @@ input {
     color: #65BBDF;
     font-weight: bolder;
 }
+
+.sgg-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+/* Panel base */
+.panel {
+  transition: transform 0.5s ease, opacity 0.5s ease, width 0.5s ease;
+}
+
+/* INPUT PANEL trạng thái ban đầu: ở giữa, rộng hơn */
+.input-panel {
+  width: 60%;
+  max-width: 800px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* OUTPUT PANEL ẩn lúc đầu */
+.output-panel {
+  width: 50%;
+  max-width: 800px;
+  opacity: 0;
+  transform: translateX(50px); // nằm “lệch sang phải” một chút
+}
+
+/* Khi đã bấm Scene Graph (show-output = true) */
+.sgg-wrapper.show-output {
+  justify-content: space-between; // chia thành 2 panel trái - phải
+}
+
+/* Input trượt sang phải (hoặc sang trái tuỳ bạn chỉnh transform) */
+.sgg-wrapper.show-output .input-panel {
+  width: 45%;
+  transform: translateX(-5px); // cảm giác “trượt nhẹ sang phải”
+}
+
+/* Output hiện dần + trượt vào */
+.sgg-wrapper.show-output .output-panel {
+  opacity: 1;
+  transform: translateX(0);
+}

@@ -1,62 +1,56 @@
 <app-header-menu></app-header-menu>
 <div class="container-fluid main-panel">
-    <div class="row">
-        <div class="col-md-6 divide-dashed">
-            <div class="row custom-file">
-                <h2 class="form-label title">Input Area</h2>
-                <label class="custom-file-input drop-zone" role="button" tabindex="0" (click)="fileUpload.click()"
-                    (keydown.enter)="fileUpload.click()" (dragover)="onDragOver($event)"
+    <div class="sgg-wrapper" [class.show-output]="showOutput">
+
+        <!-- PANEL INPUT -->
+        <div class="panel input-panel">
+            <div class="row custom-file title">
+                <!-- <h2 class="form-label title">Input Area</h2> -->
+                <label class="custom-file-input drop-zone" role="button" tabindex="0" (dragover)="onDragOver($event)"
                     (dragleave)="onDragLeave($event)" (drop)="onDrop($event)" [class.dragover]="isDragOver">
                     <i class="fa fa-cloud-upload"> </i> Upload or Drag and drop image here.
                     <input type="file" (change)="onChange($event)" #fileUpload accept="image/*" hidden />
                 </label>
             </div>
+
             <div class="row">
                 <img class="im-res" *ngIf="imageSrc" [src]="imageSrc">
             </div>
+
             <div class="row" *ngIf="file">
-                <div class="col-md-2"></div>
-                <div class="col-md-4">
-                    <section class="file-info">
-                        <h4 class="form-label title">File Information</h4>
-                        <ul>
-                            <li>Name: {{file.name}}</li>
-                            <li>Type: {{file.type}}</li>
-                            <li>Size: {{file.size}} bytes</li>
-                        </ul>
-                    </section>
-                </div>
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <section class="center-btn">
                         <button class="btn btn-outline-success btn-search" type="submit" (click)="onClickSGG()">
                             <i class="fa-solid fa-magnifying-glass"></i> Scene Graph Generation
                         </button>
                     </section>
-                    <section [ngSwitch]="status" class="info-progress">
+                    <section [ngSwitch]="status" class="info-progress title">
                         <p *ngSwitchCase="'uploading'">⏳ Excuting...</p>
                         <p *ngSwitchCase="'success'">✅ Done!</p>
                         <p *ngSwitchCase="'fail'">❌ Error!</p>
                         <p *ngSwitchDefault>😶 Waiting...</p>
                     </section>
                 </div>
-                <div class="col-md-2"></div>
             </div>
-
         </div>
-        <div class="col-md-6">
-            <div class="row">
-                <h2 for="exampleFormControlTextarea1" class="form-label title">Output Scene Graph</h2>
-            </div>
-            <div class="loading-container" *ngIf="this.isLoading">
+
+        <!-- PANEL OUTPUT (SCENE GRAPH) -->
+        <div class="panel output-panel" *ngIf="showOutput">
+            <!-- <div class="row">
+                <h2 class="form-label title">Output Scene Graph</h2>
+            </div> -->
+
+            <div class="loading-container" *ngIf="isLoading">
                 <img src="./assets/loading.gif" class="image-loading">
             </div>
-            <div class="row" *ngIf="this.isData != false">
+
+            <div class="row" *ngIf="isData != false">
                 <div class="container">
-                    <h4 class="form-label title">Scene Graph</h4>
+                    <!-- <h4 class="form-label title">Scene Graph</h4> -->
                     <div class="modal-body row">
                         <div class="col-md-6">
                             <img class="im-res-scene" style="cursor: pointer;"
-                                src="{{apiRoot}}/sgg/res-sgg/{{this.imageObject}}"> <!--(click)="openPopup(1)"-->
+                                [src]="apiRoot + '/sgg/res-sgg/' + imageObject">
                         </div>
                         <div class="col-md-6 triplets-block">
                             <div *ngFor="let triplet of triplets; let i = index" class="triplet">
@@ -65,45 +59,36 @@
                                 <input [(ngModel)]="triplet.subject" placeholder="Subject" class="subject">
                                 <input [(ngModel)]="triplet.relation" placeholder="Relation" class="relation">
                                 <input [(ngModel)]="triplet.object" placeholder="Object" class="object">
-
                             </div>
-                            <div *ngIf="triplets.length < 10" style="margin-top: 8px;" class="center-btn col-md-6">
+                            <div *ngIf="triplets.length < 10" style="margin-top: 8px;" class="center-btn">
                                 <button (click)="addTriplet()" class="btn btn-outline-success btn-search">+</button>
                             </div>
                         </div>
                     </div>
 
                     <h4 class="form-label title">Triplets Detection</h4>
-                    <img class="im-res" style="cursor: pointer;" src="{{apiRoot}}/sgg/res-sgg/{{this.imageTriplet}}"
+                    <img class="im-res" style="cursor: pointer;" [src]="apiRoot + '/sgg/res-sgg/' + imageTriplet"
                         (click)="openPopup(2)">
                 </div>
             </div>
         </div>
+
     </div>
 
-    <div class="row">
+    <div class="row center-btn">
         <div class="col center-btn">
             <button class="btn btn-outline-success btn-search" type="submit" (click)="onClickSearch()">
                 <i class="fa-solid fa-magnifying-glass"></i> Search</button>
             <button class="btn btn-outline-success btn-clear" type="submit" (click)="onClickClear()">
                 <i class="fa-solid fa-eraser"></i> Clear</button>
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col">
-            <h2 for="exampleFormControlTextarea1" class="form-label title">Retrieval Result Area</h2>
         </div>
-    </div>
-    <div class="row center-btn" *ngIf="this.isData != false">
-        <div class="col clear-res">
+        <h2 for="exampleFormControlTextarea1" class="form-label title">Retrieval Result Area</h2>
+        <div class="col clear-res" *ngIf="this.isData != false">
             <button class="btn btn-outline-success btn-clear" type="submit" (click)="onClickClearRes()">
                 <i class="fa-solid fa-xmark"></i> Clear Result</button>
         </div>
     </div>
-    <!-- <div class="loading-container" *ngIf="this.isLoadingRev">
-        <img src="./assets/loading.gif" class="image-loading">
-    </div> -->
 
     <div class="container" *ngIf="isDataRev">
         <div class="row">
