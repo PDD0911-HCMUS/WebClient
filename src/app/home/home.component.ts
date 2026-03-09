@@ -24,6 +24,7 @@ export class HomeComponent {
       {url: "/perception/reltr-ssg", topic: "Region Generation", logo: "./assets/logo-rg.webp"},
       {url: "/perception/reltr-ssg", topic: "Object Detection", logo: "./assets/logo-detr.webp"},
       {url: "retrieval/retrieval-iresg", topic: "Retrieval Based on Scence Graph V2", logo: "./assets/logo-rs.webp"},
+      {url: "retrieval/retrieval-RAGInterIR", topic: "Retrieval RAG", logo: "./assets/logo-rsRAG.png"},
       // {url: "retrieval/retrieval-IRESGCL", topic: "Retrieval Based on Scence Graph", logo: "./assets/logo-rs.webp"},
     ]
   }

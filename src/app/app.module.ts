@@ -24,6 +24,7 @@ import { RegisterComponent } from './user/register/register.component';
 import { RetrievalIRESGComponent } from './retrieval/retrieval-iresg/retrieval-iresg.component';
 import { PageManagementComponent } from './pages/page-management/page-management.component';
 import { CommonSettingComponent } from './setting/common-setting/common-setting.component';
+import { RetrievalRAGInteractIRComponent } from './retrieval/retrieval-raginteract-ir/retrieval-raginteract-ir.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { CommonSettingComponent } from './setting/common-setting/common-setting.
     RegisterComponent,
     RetrievalIRESGComponent,
     PageManagementComponent,
-    CommonSettingComponent
+    CommonSettingComponent,
+    RetrievalRAGInteractIRComponent
   ],
   imports: [
     BrowserModule,

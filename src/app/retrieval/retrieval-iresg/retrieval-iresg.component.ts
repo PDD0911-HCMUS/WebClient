@@ -159,7 +159,7 @@ export class RetrievalIRESGComponent {
         this.originalTriplets = this.triplets.map(triplet => `${triplet.subject} ${triplet.relation} ${triplet.object}`);
 
         this.appSwal.showSuccess(this.dataRespone.Msg);
-        
+
       }
       else {
         this.appSwal.showFailure(this.dataRespone.Msg);
@@ -234,6 +234,11 @@ export class RetrievalIRESGComponent {
 
   removeTriplet(index: number) {
     this.triplets.splice(index, 1);
+  }
+
+  resizeInput(event: any) {
+    const input = event.target;
+    input.style.width = (input.value.length + 2) + "ch";
   }
 
   openPopup(id: any) {

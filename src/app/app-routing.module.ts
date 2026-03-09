@@ -10,6 +10,7 @@ import { RegisterComponent } from './user/register/register.component';
 import { RetrievalIRESGComponent } from './retrieval/retrieval-iresg/retrieval-iresg.component';
 import { PageManagementComponent } from './pages/page-management/page-management.component';
 import { CommonSettingComponent } from './setting/common-setting/common-setting.component';
+import { RetrievalRAGInteractIRComponent } from './retrieval/retrieval-raginteract-ir/retrieval-raginteract-ir.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/user/login', pathMatch: 'full' },
@@ -21,7 +22,10 @@ const routes: Routes = [
   { path: 'user/register', component: RegisterComponent},
   { path: 'retrieval/retrieval-iresg', component: RetrievalIRESGComponent},
   { path: 'pages/page-management', component: PageManagementComponent},
-  { path: 'setting/common', component: CommonSettingComponent}
+  { path: 'setting/common', component: CommonSettingComponent},
+
+  { path: 'retrieval/retrieval-RAGInterIR', component: RetrievalRAGInteractIRComponent},
+  { path: 'retrieval/retrieval-RAGInterIR/:conversationId', component: RetrievalRAGInteractIRComponent}
   
 ];
 

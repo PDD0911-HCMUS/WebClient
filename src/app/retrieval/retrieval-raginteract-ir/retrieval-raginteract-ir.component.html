@@ -1,0 +1,86 @@
+<div class="page-shell">
+  <app-header-menu></app-header-menu>
+
+  <div class="container-fluid main-panel">
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="brand">Interact Image Retrieval</div>
+        <div class="status">Ready</div>
+      </header>
+
+      <main class="app-main">
+        <!-- LEFT: Chat -->
+        <section class="chat-panel">
+          <div class="chat-header">
+            <div class="title">Chat</div>
+            <button class="btn" type="button" (click)="onNewChat()">New</button>
+          </div>
+
+          <div class="chat-body" #chatBody>
+            <div class="msg" *ngFor="let m of messages; trackBy: trackById" [class.user]="m.role === 'user'"
+              [class.assistant]="m.role === 'assistant'">
+              <div class="bubble">
+                <ng-container *ngIf="!m.triplets">
+                  {{ m.content }}
+                </ng-container>
+                <!-- Triplet editor bubble -->
+                <ng-container *ngIf="m.triplets">
+                  <div class="triplet-title">Extracted triplets (editable)</div>
+
+                  <div class="triplet-row" *ngFor="let t of m.triplets; let i = index">
+                    <input class="triplet-input" [(ngModel)]="t.subject" name="sub-{{m.id}}-{{i}}"
+                      placeholder="subject" />
+                    <input class="triplet-input" [(ngModel)]="t.relation" name="rel-{{m.id}}-{{i}}"
+                      placeholder="relation" />
+                    <input class="triplet-input" [(ngModel)]="t.object" name="obj-{{m.id}}-{{i}}"
+                      placeholder="object" />
+
+                    <button class="icon-btn danger" type="button" (click)="removeTriplet(m, i)">🗑</button>
+                  </div>
+
+                  <div class="triplet-actions">
+                    <button class="btn" type="button" (click)="addTriplet(m)">+ Add</button>
+                    <button class="btn primary" type="button" (click)="applyTriplets(m)">Apply / Search</button>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+
+          <form class="chat-input" (submit)="$event.preventDefault(); onSend()">
+            <input type="text" [(ngModel)]="inputText" name="chatInput" placeholder="Type your query..."
+              autocomplete="off" />
+            <button class="btn primary" type="submit" [disabled]="!inputText.trim()">Send</button>
+          </form>
+        </section>
+
+        <!-- RIGHT: Results -->
+        <section class="results-panel">
+          <div class="results-header">
+            <div class="title">Results</div>
+            <div class="tools">
+              <input class="search" type="text" placeholder="Filter results..." />
+              <select class="select">
+                <option>Top-K: 20</option>
+                <option>Top-K: 50</option>
+                <option>Top-K: 100</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="results-grid">
+            <article class="card" *ngFor="let _ of [1,2,3,4,5,6,7,8,9,10,11,12]">
+              <div class="thumb"></div>
+              <div class="meta">
+                <div class="rank">Rank #{{_}}</div>
+                <div class="score">Score: 0.87</div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <app-footer-menu></app-footer-menu>
+</div>

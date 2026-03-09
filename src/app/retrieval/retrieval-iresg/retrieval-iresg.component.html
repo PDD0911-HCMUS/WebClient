@@ -8,7 +8,7 @@
                 <!-- <h2 class="form-label title">Input Area</h2> -->
                 <label class="custom-file-input drop-zone" role="button" tabindex="0" (dragover)="onDragOver($event)"
                     (dragleave)="onDragLeave($event)" (drop)="onDrop($event)" [class.dragover]="isDragOver">
-                    <i class="fa fa-cloud-upload"> </i> Upload or Drag and drop image here.
+                     <span style="font-size: x-large;"> <i class="fa fa-cloud-upload"> </i> Upload or Drag and drop image here.</span> 
                     <input type="file" (change)="onChange($event)" #fileUpload accept="image/*" hidden />
                 </label>
             </div>
@@ -49,8 +49,11 @@
                     <!-- <h4 class="form-label title">Scene Graph</h4> -->
                     <div class="modal-body row">
                         <div class="col-md-6">
-                            <img class="im-res-scene" style="cursor: pointer;"
-                                [src]="apiRoot + '/sgg/res-sgg/' + imageObject">
+                            <div class="row im-res-scene">
+                                <img style="cursor: pointer;"
+                                    [src]="apiRoot + '/sgg/res-sgg/' + imageObject">
+                            </div>
+
                         </div>
                         <div class="col-md-6 triplets-block">
                             <div *ngFor="let triplet of triplets; let i = index" class="triplet">
@@ -66,7 +69,7 @@
                         </div>
                     </div>
 
-                    <h4 class="form-label title">Triplets Detection</h4>
+                    <h4 class="form-label title" style="font-size: x-large;">Triplets Detection</h4>
                     <img class="im-res" style="cursor: pointer;" [src]="apiRoot + '/sgg/res-sgg/' + imageTriplet"
                         (click)="openPopup(2)">
                 </div>
@@ -83,7 +86,7 @@
                 <i class="fa-solid fa-eraser"></i> Clear</button>
 
         </div>
-        <h2 for="exampleFormControlTextarea1" class="form-label title">Retrieval Result Area</h2>
+        <h2 for="exampleFormControlTextarea1" class="form-label title" style="font-size: xx-large;">Retrieval Result Area</h2>
         <div class="col clear-res" *ngIf="this.isData != false">
             <button class="btn btn-outline-success btn-clear" type="submit" (click)="onClickClearRes()">
                 <i class="fa-solid fa-xmark"></i> Clear Result</button>

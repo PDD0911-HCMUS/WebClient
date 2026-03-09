@@ -1,0 +1,338 @@
+:host {
+  display: block;
+  height: 100vh;
+  overflow: hidden; // chặn body bị kéo dài
+}
+
+.page-shell {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto; // header | content | footer
+  overflow: hidden;
+}
+
+/* ===== Light Tech Theme ===== */
+.app-shell {
+  height: 100%;
+  display: grid;
+  grid-template-rows: 56px minmax(0, 1fr); // <-- đổi 1fr -> minmax(0, 1fr);
+
+  /* brighter background */
+  background: linear-gradient(180deg, #f8fdff 0%, #eef9ff 100%);
+  color: #0f172a; /* slate-900-ish */
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+
+  /* header on light bg */
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.70);
+  backdrop-filter: blur(10px);
+
+  .brand {
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    color: #0f172a;
+  }
+
+  .status {
+    opacity: 0.75;
+    font-size: 13px;
+    color: #334155; /* slate-600 */
+  }
+}
+
+.app-main {
+  display: grid;
+  grid-template-columns: minmax(320px, 30%) 1fr; // chat nhỏ hơn results
+  gap: 12px;
+  padding: 12px;
+  min-height: 0; // quan trọng để scroll đúng
+  overflow: hidden;
+}
+
+.chat-panel,
+.results-panel {
+  /* card on light bg */
+  border: 1px solid rgba(15, 23, 42, 0.10);
+  background: rgba(255, 255, 255, 0.75);
+  border-radius: 16px;
+  min-height: 0;
+  overflow: hidden;
+
+  /* subtle shadow for separation */
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.chat-panel {
+  display: grid;
+  grid-template-rows: 48px minmax(0, 1fr) 56px; // <-- đổi 1fr -> minmax(0, 1fr);
+  min-height: 0;
+
+  .chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+
+    .title {
+      font-weight: 700;
+      color: #0f172a;
+    }
+  }
+
+  .chat-body {
+    padding: 12px;
+    overflow-y: auto;   // chỉ scroll dọc
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 0;
+  }
+
+  .msg {
+    display: flex;
+
+    &.assistant { justify-content: flex-start; }
+    &.user { justify-content: flex-end; }
+
+    .bubble {
+      max-width: 88%;
+      padding: 10px 12px;
+      border-radius: 14px;
+      line-height: 1.25;
+      font-size: 14px;
+
+      border: 1px solid rgba(15, 23, 42, 0.10);
+      color: #0f172a;
+    }
+
+    &.assistant .bubble {
+      background: rgba(2, 132, 199, 0.06); /* sky tint */
+      border-color: rgba(2, 132, 199, 0.14);
+    }
+
+    &.user .bubble {
+      background: rgba(59, 130, 246, 0.14); /* blue tint */
+      border-color: rgba(59, 130, 246, 0.22);
+    }
+  }
+
+  .chat-input {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 10px;
+    padding: 10px;
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+
+    input {
+      height: 36px;
+      border-radius: 10px;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+
+      background: rgba(255, 255, 255, 0.9);
+      color: #0f172a;
+      padding: 0 12px;
+      outline: none;
+
+      &::placeholder {
+        color: rgba(51, 65, 85, 0.75);
+      }
+
+      &:focus {
+        border-color: rgba(59, 130, 246, 0.55);
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+      }
+    }
+  }
+}
+
+.results-panel {
+  display: grid;
+  grid-template-rows: 56px 1fr;
+
+  .results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+
+    .title {
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .tools {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .search,
+    .select {
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+
+      background: rgba(255, 255, 255, 0.9);
+      color: #0f172a;
+      padding: 0 10px;
+      outline: none;
+
+      &:focus {
+        border-color: rgba(59, 130, 246, 0.55);
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+      }
+    }
+  }
+
+  .results-grid {
+    padding: 12px;
+    overflow: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+    align-content: start;
+  }
+
+  .card {
+    border-radius: 14px;
+    border: 1px solid rgba(15, 23, 42, 0.10);
+    background: rgba(255, 255, 255, 0.90);
+    overflow: hidden;
+    cursor: pointer;
+
+    transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+
+    &:hover {
+      transform: translateY(-2px);
+      border-color: rgba(59, 130, 246, 0.35);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.10);
+    }
+
+    .thumb {
+      height: 140px;
+      background: linear-gradient(
+        135deg,
+        rgba(2, 132, 199, 0.10),
+        rgba(59, 130, 246, 0.12)
+      );
+    }
+
+    .meta {
+      padding: 10px 10px 12px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #334155; /* slate-600 */
+      opacity: 0.95;
+
+      .rank { font-weight: 700; color: #0f172a; }
+      .score { opacity: 0.85; }
+    }
+  }
+}
+
+.btn {
+  height: 34px;
+  padding: 0 12px;
+  border-radius: 10px;
+
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.85);
+  color: #0f172a;
+  cursor: pointer;
+
+  transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+
+  &:hover {
+    border-color: rgba(15, 23, 42, 0.20);
+    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.08);
+    transform: translateY(-1px);
+  }
+
+  &.primary {
+    border-color: rgba(59, 130, 246, 0.45);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.22), rgba(2, 132, 199, 0.18));
+  }
+
+  &:active {
+    transform: translateY(0px);
+  }
+}
+
+/* responsive: màn nhỏ -> chat xuống dưới */
+@media (max-width: 980px) {
+  .app-main {
+    grid-template-columns: 1fr;
+    grid-template-rows: 420px 1fr;
+  }
+}
+
+/* 1) bubble phải co được trong flex container */
+.msg .bubble {
+  min-width: 0;          // quan trọng khi bubble nằm trong flex
+  max-width: 100%;
+}
+
+.triplet-title {
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.triplet-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.3fr) auto;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+}
+
+.triplet-input {
+  height: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 0 10px;
+  outline: none;
+  width: 100%;
+  min-width: 0;          // cực quan trọng để tránh tràn trong grid
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: rgba(59, 130, 246, 0.55);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.10);
+  }
+}
+
+.triplet-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.icon-btn {
+  height: 34px;
+  width: 34px;
+  border-radius: 10px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+
+  &.danger {
+    border-color: rgba(239, 68, 68, 0.25);
+  }
+}

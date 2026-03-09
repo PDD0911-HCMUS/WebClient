@@ -15,9 +15,10 @@
 
 .btn-clear{
     margin: 10px;
-    color: orange;
+    // color: orange;
     font-weight: 600;
     border-color: orange !important;
+    background: orange;
 }
 
 .btn-search{
@@ -70,22 +71,22 @@
     margin: auto; 
     margin-top: 10px;
     margin-bottom: 10px;
-    transition: transform .9s;
+    transition: transform .3s;
 }
 
 .im-rev{
     display: block; 
-    max-width: 100%; 
+    max-width: 75%; 
     height: auto; 
     margin: auto; 
     margin-top: 10px;
     margin-bottom: 10px;
-    transition: transform .9s;
+    transition: transform .3s;
 }
 
 .im-res-scene{
     display: block; 
-    max-width: 150%; 
+    max-width: 100%; 
     height: auto; 
     margin: auto; 
     margin-top: 10px;
@@ -141,15 +142,17 @@ input[type="file"] {
     margin: auto;
     display: flex;
     flex-direction: column;
-    align-items: flex-end;
-    margin: auto;
+    align-items: center;     /* center horizontal */
+    justify-content: center;
 }
+
 .triplet {
     display: flex;
     align-items: center;
-    margin: 10px 0;
+    justify-content: center; /* center các input */
+    gap: 8px;
+    margin: 8px 0;
     font-family: Arial, sans-serif;
-    justify-content: flex-end;
 }
 
 .triplet-rev {
@@ -183,7 +186,7 @@ input[type="file"] {
 input {
     padding: 5px;
     font-size: 14px;
-    width: 15%; /* Điều chỉnh độ rộng của input */
+    width:20%; /* Điều chỉnh độ rộng của input */
     text-align: center;
 }
 
@@ -228,7 +231,7 @@ input {
 
 /* Khi đã bấm Scene Graph (show-output = true) */
 .sgg-wrapper.show-output {
-  justify-content: space-between; // chia thành 2 panel trái - phải
+//   justify-content: space-between; // chia thành 2 panel trái - phải
 }
 
 /* Input trượt sang phải (hoặc sang trái tuỳ bạn chỉnh transform) */
@@ -241,4 +244,12 @@ input {
 .sgg-wrapper.show-output .output-panel {
   opacity: 1;
   transform: translateX(0);
+}
+
+.auto-input{
+    width: auto;
+    min-width: 80px;
+    max-width: 200px;
+    padding: 4px 6px;
+    text-align: center;
 }
