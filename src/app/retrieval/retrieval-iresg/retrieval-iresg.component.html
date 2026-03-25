@@ -1,152 +1,294 @@
 <app-header-menu></app-header-menu>
+
 <div class="container-fluid main-panel">
-    <div class="sgg-wrapper" [class.show-output]="showOutput">
 
-        <!-- PANEL INPUT -->
-        <div class="panel input-panel">
-            <div class="row custom-file title">
-                <!-- <h2 class="form-label title">Input Area</h2> -->
-                <label class="custom-file-input drop-zone" role="button" tabindex="0" (dragover)="onDragOver($event)"
-                    (dragleave)="onDragLeave($event)" (drop)="onDrop($event)" [class.dragover]="isDragOver">
-                     <span style="font-size: x-large;"> <i class="fa fa-cloud-upload"> </i> Upload or Drag and drop image here.</span> 
-                    <input type="file" (change)="onChange($event)" #fileUpload accept="image/*" hidden />
-                </label>
-            </div>
+  <!-- PAGE HEADER -->
+  <!-- <section class="page-hero">
+    <h1 class="page-title">Interactive Scene Graph Retrieval</h1>
+    <p class="page-subtitle">
+      Upload an image, generate scene graph triplets, edit them, and retrieve similar images.
+    </p>
+  </section> -->
 
-            <div class="row">
-                <img class="im-res" *ngIf="imageSrc" [src]="imageSrc">
-            </div>
+  <!-- STEP 1 + STEP 2 -->
+  <section class="workflow-grid">
 
-            <div class="row" *ngIf="file">
-                <div class="col-md-12">
-                    <section class="center-btn">
-                        <button class="btn btn-outline-success btn-search" type="submit" (click)="onClickSGG()">
-                            <i class="fa-solid fa-magnifying-glass"></i> Scene Graph Generation
-                        </button>
-                    </section>
-                    <section [ngSwitch]="status" class="info-progress title">
-                        <p *ngSwitchCase="'uploading'">⏳ Excuting...</p>
-                        <p *ngSwitchCase="'success'">✅ Done!</p>
-                        <p *ngSwitchCase="'fail'">❌ Error!</p>
-                        <p *ngSwitchDefault>😶 Waiting...</p>
-                    </section>
-                </div>
-            </div>
+    <!-- STEP 1: INPUT -->
+    <div class="workflow-card">
+      <!-- <div class="card-step">Step 1</div> -->
+      <h2 class="card-title">Input Image</h2>
+      <!-- <p class="card-desc">
+        Upload an image to generate the initial scene graph.
+      </p> -->
+
+      <label
+        class="drop-zone"
+        role="button"
+        tabindex="0"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+        [class.dragover]="isDragOver"
+      >
+        <div class="drop-zone-inner">
+          <i class="fa fa-cloud-upload drop-icon"></i>
+          <div class="drop-title">Upload or drag and drop an image here</div>
+          <div class="drop-hint">Supported: JPG, PNG, JPEG</div>
         </div>
+        <input type="file" (change)="onChange($event)" #fileUpload accept="image/*" hidden />
+      </label>
 
-        <!-- PANEL OUTPUT (SCENE GRAPH) -->
-        <div class="panel output-panel" *ngIf="showOutput">
-            <!-- <div class="row">
-                <h2 class="form-label title">Output Scene Graph</h2>
-            </div> -->
+      <div class="preview-block" *ngIf="imageSrc">
+        <div class="preview-label">Preview</div>
+        <img class="preview-image" [src]="imageSrc" alt="Input preview" />
+      </div>
 
-            <div class="loading-container" *ngIf="isLoading">
-                <img src="./assets/loading.gif" class="image-loading">
-            </div>
+      <div class="action-block" *ngIf="file">
+        <button class="btn btn-primary btn-main-action" type="button" (click)="onClickSGG()">
+          <i class="fa-solid fa-diagram-project"></i>
+          Generate Scene Graph
+        </button>
 
-            <div class="row" *ngIf="isData != false">
-                <div class="container">
-                    <!-- <h4 class="form-label title">Scene Graph</h4> -->
-                    <div class="modal-body row">
-                        <div class="col-md-6">
-                            <div class="row im-res-scene">
-                                <img style="cursor: pointer;"
-                                    [src]="apiRoot + '/sgg/res-sgg/' + imageObject">
-                            </div>
-
-                        </div>
-                        <div class="col-md-6 triplets-block">
-                            <div *ngFor="let triplet of triplets; let i = index" class="triplet">
-                                <button (click)="removeTriplet(i)" class="btn btn-sm btn-danger"
-                                    style="margin-right: 5px;">-</button>
-                                <input [(ngModel)]="triplet.subject" placeholder="Subject" class="subject">
-                                <input [(ngModel)]="triplet.relation" placeholder="Relation" class="relation">
-                                <input [(ngModel)]="triplet.object" placeholder="Object" class="object">
-                            </div>
-                            <div *ngIf="triplets.length < 10" style="margin-top: 8px;" class="center-btn">
-                                <button (click)="addTriplet()" class="btn btn-outline-success btn-search">+</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h4 class="form-label title" style="font-size: x-large;">Triplets Detection</h4>
-                    <img class="im-res" style="cursor: pointer;" [src]="apiRoot + '/sgg/res-sgg/' + imageTriplet"
-                        (click)="openPopup(2)">
-                </div>
-            </div>
-        </div>
-
+        <section [ngSwitch]="status" class="status-box">
+          <p *ngSwitchCase="'uploading'" class="status-text pending">⏳ Executing...</p>
+          <p *ngSwitchCase="'success'" class="status-text success">✅ Done!</p>
+          <p *ngSwitchCase="'fail'" class="status-text fail">❌ Error!</p>
+          <p *ngSwitchDefault class="status-text waiting">😶 Waiting...</p>
+        </section>
+      </div>
     </div>
 
-    <div class="row center-btn">
-        <div class="col center-btn">
-            <button class="btn btn-outline-success btn-search" type="submit" (click)="onClickSearch()">
-                <i class="fa-solid fa-magnifying-glass"></i> Search</button>
-            <button class="btn btn-outline-success btn-clear" type="submit" (click)="onClickClear()">
-                <i class="fa-solid fa-eraser"></i> Clear</button>
+    <!-- STEP 2: OUTPUT -->
+    <div class="workflow-card output-card">
+      <!-- <div class="card-step">Step 2</div> -->
+      <h2 class="card-title">Scene Graph Output</h2>
+      <!-- <p class="card-desc">
+        Review the generated visual scene graph and edit the triplets before retrieval.
+      </p> -->
 
+      <div class="empty-state" *ngIf="!showOutput">
+        <i class="fa-solid fa-wand-magic-sparkles empty-icon"></i>
+        <p>Scene graph output will appear here after generation.</p>
+      </div>
+
+      <div class="loading-container" *ngIf="isLoading">
+        <img src="./assets/loading.gif" class="image-loading" alt="Loading" />
+      </div>
+
+      <div *ngIf="showOutput && isData != false" class="scene-output-layout">
+
+        <!-- scene graph image -->
+        <div class="scene-pane">
+          <div class="subsection-header">
+            <h3>Generated Scene Graph</h3>
+          </div>
+
+          <div class="image-frame">
+            <img
+              class="scene-image"
+              style="cursor: pointer;"
+              [src]="apiRoot + '/sgg/res-sgg/' + imageObject"
+              alt="Scene graph result"
+            />
+          </div>
         </div>
-        <h2 for="exampleFormControlTextarea1" class="form-label title" style="font-size: xx-large;">Retrieval Result Area</h2>
-        <div class="col clear-res" *ngIf="this.isData != false">
-            <button class="btn btn-outline-success btn-clear" type="submit" (click)="onClickClearRes()">
-                <i class="fa-solid fa-xmark"></i> Clear Result</button>
+
+        <!-- editable triplets -->
+        <div class="triplet-pane">
+          <div class="subsection-header">
+            <h3>Editable Triplets</h3>
+            <span class="triplet-count">{{ triplets?.length || 0 }}/10</span>
+          </div>
+
+          <div class="triplets-editor" *ngIf="triplets?.length; else noTriplets">
+            <div *ngFor="let triplet of triplets; let i = index" class="triplet-row">
+              <button
+                type="button"
+                (click)="removeTriplet(i)"
+                class="btn triplet-remove-btn"
+                aria-label="Remove triplet"
+              >
+                <i class="fa-solid fa-minus"></i>
+              </button>
+
+              <input
+                [(ngModel)]="triplet.subject"
+                placeholder="Subject"
+                class="triplet-input subject"
+              />
+
+              <input
+                [(ngModel)]="triplet.relation"
+                placeholder="Relation"
+                class="triplet-input relation"
+              />
+
+              <input
+                [(ngModel)]="triplet.object"
+                placeholder="Object"
+                class="triplet-input object"
+              />
+            </div>
+          </div>
+
+          <ng-template #noTriplets>
+            <div class="mini-empty-state">
+              No triplets generated yet.
+            </div>
+          </ng-template>
+
+          <div *ngIf="triplets.length < 10" class="add-triplet-wrap">
+            <button type="button" (click)="addTriplet()" class="btn add-triplet-btn">
+              <i class="fa-solid fa-plus"></i>
+              Add Triplet
+            </button>
+          </div>
         </div>
+      </div>
+
+      <!-- triplet detection -->
+      <!-- <div class="triplet-detection-block" *ngIf="showOutput && isData != false">
+        <div class="subsection-header center">
+          <h3>Triplets Detection</h3>
+        </div>
+
+        <div class="triplet-detection-frame">
+          <img
+            class="triplet-detection-image"
+            style="cursor: pointer;"
+            [src]="apiRoot + '/sgg/res-sgg/' + imageTriplet"
+            (click)="openPopup(2)"
+            alt="Triplet detection"
+          />
+        </div>
+      </div> -->
+    </div>
+  </section>
+
+  <!-- STEP 3 -->
+  <section class="retrieval-section">
+    <div class="retrieval-header">
+      <div>
+        <!-- <div class="card-step">Step 3</div> -->
+        <h2 class="card-title">Retrieve Similar Images</h2>
+        <!-- <p class="card-desc">
+          Use the edited triplets to search for relevant images.
+        </p> -->
+      </div>
+
+      <div class="retrieval-actions">
+        <button class="btn btn-search-action" type="button" (click)="onClickSearch()">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          Search
+        </button>
+
+        <button class="btn btn-clear-action" type="button" (click)="onClickClear()">
+          <i class="fa-solid fa-eraser"></i>
+          Clear
+        </button>
+      </div>
     </div>
 
-    <div class="container" *ngIf="isDataRev">
-        <div class="row">
-            <div class="col-md-4 col-sm-6 col-12 d-flex justify-content-center align-items-center image-container"
-                *ngFor="let image of displayedImages">
-                <img class="im-rev img-fluid" [src]="apiRoot + '/rev_v2/images/' + image">
-            </div>
+    <div class="results-card">
+      <div class="results-topbar">
+        <h2 class="results-title">Retrieval Result Area</h2>
+
+        <button
+          class="btn btn-clear-result"
+          type="button"
+          (click)="onClickClearRes()"
+          *ngIf="this.isData != false"
+        >
+          <i class="fa-solid fa-xmark"></i>
+          Clear Result
+        </button>
+      </div>
+
+      <div class="result-empty-state" *ngIf="!isDataRev">
+        <i class="fa-regular fa-images result-empty-icon"></i>
+        <p>No retrieval results yet. Generate a scene graph and click Search.</p>
+      </div>
+
+      <div class="results-grid-wrap" *ngIf="isDataRev">
+        <div class="results-grid">
+          <div
+            class="result-item"
+            *ngFor="let image of displayedImages"
+          >
+            <img class="result-image" [src]="apiRoot + '/rev_v2/images/' + image" alt="Retrieved result" />
+          </div>
         </div>
-        <mat-paginator class="page-layout" [length]="imageRev.length" [pageSize]="pageSize"
-            [pageSizeOptions]="[3, 6, 9]" showFirstLastButtons (page)="onPageChange($event)">
+
+        <mat-paginator
+          class="page-layout"
+          [length]="imageRev.length"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="[3, 6, 9]"
+          showFirstLastButtons
+          (page)="onPageChange($event)"
+        >
         </mat-paginator>
+      </div>
     </div>
+  </section>
 </div>
 
-<div class="modal" style="justify-content: center;align-items: center;margin: auto;" tabindex="-1" role="dialog"
-    [ngStyle]="{'display':displayStyleSG}">
-    <div role="document">
-        <div class="modal-content triplet-details">
-            <div class="modal-header">
-                <h4 class="modal-title">Triplet Details</h4>
-            </div>
-            <div class="modal-body row" *ngIf="this.imageTriplet">
-                <div class="col-md-6">
-                    <img class="im-detail" style="width: 85%;" src="{{apiRoot}}sgg/res-sgg/{{this.imageObject}}">
-                </div>
-                <div class="col-md-6">
-                    <div *ngFor="let triplet of triplets" class="triplet">
-                        <span class="subject">{{ triplet.subject }}</span>
-                        <span class="relation">{{ triplet.relation }}</span>
-                        <span class="object">{{ triplet.object }}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" (click)="closePopup(1)"> Close </button>
-            </div>
+<!-- MODAL 1 -->
+<div
+  class="modal modal-center"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':displayStyleSG}"
+>
+  <div role="document" class="modal-dialog-custom">
+    <div class="modal-content triplet-details">
+      <div class="modal-header">
+        <h4 class="modal-title">Triplet Details</h4>
+      </div>
+
+      <div class="modal-body row" *ngIf="this.imageTriplet">
+        <div class="col-md-6">
+          <img class="im-detail" src="{{apiRoot}}sgg/res-sgg/{{this.imageObject}}">
         </div>
+
+        <div class="col-md-6">
+          <div *ngFor="let triplet of triplets" class="triplet-rev">
+            <span class="subject badge-like">{{ triplet.subject }}</span>
+            <span class="relation badge-like">{{ triplet.relation }}</span>
+            <span class="object badge-like">{{ triplet.object }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closePopup(1)">Close</button>
+      </div>
     </div>
+  </div>
 </div>
 
-<div class="modal" style="justify-content: center;align-items: center;margin: auto;" tabindex="-1" role="dialog"
-    [ngStyle]="{'display':displayStyle}">
-    <div role="document">
-        <div class="modal-content triplet-details">
-            <div class="modal-header">
-                <h4 class="modal-title">Triplet Details</h4>
-            </div>
-            <div class="modal-body row" *ngIf="this.imageTriplet">
-                <img class="im-detail" src="{{apiRoot}}sgg/res-sgg/{{this.imageTriplet}}">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" (click)="closePopup(2)"> Close </button>
-            </div>
-        </div>
+<!-- MODAL 2 -->
+<div
+  class="modal modal-center"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':displayStyle}"
+>
+  <div role="document" class="modal-dialog-custom">
+    <div class="modal-content triplet-details">
+      <div class="modal-header">
+        <h4 class="modal-title">Triplet Detection</h4>
+      </div>
+
+      <div class="modal-body row" *ngIf="this.imageTriplet">
+        <img class="im-detail detection-modal-image" src="{{apiRoot}}sgg/res-sgg/{{this.imageTriplet}}">
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" (click)="closePopup(2)">Close</button>
+      </div>
     </div>
+  </div>
 </div>
 
 <app-footer-menu></app-footer-menu>
