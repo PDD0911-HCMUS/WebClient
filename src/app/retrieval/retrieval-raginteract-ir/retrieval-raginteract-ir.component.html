@@ -87,6 +87,15 @@
                 </ng-container>
               </div>
             </div>
+
+            <!-- loading bubble -->
+            <div class="msg assistant" *ngIf="isSending">
+              <div class="bubble loading-bubble">
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+              </div>
+            </div>
           </div>
 
           <form class="chat-input" (submit)="$event.preventDefault(); onSend()">
@@ -104,23 +113,40 @@
             <div class="title">Results</div>
             <div class="tools">
               <input class="search" type="text" placeholder="Filter results..." />
-              <select class="select">
-                <option>Top-K: 20</option>
-                <option>Top-K: 50</option>
-                <option>Top-K: 100</option>
+
+              <select class="select" [ngModel]="pageSize" (ngModelChange)="onPageSizeChange($event)">
+                <option [ngValue]="8">8 / page</option>
+                <option [ngValue]="12">12 / page</option>
+                <option [ngValue]="20">20 / page</option>
               </select>
             </div>
           </div>
 
           <div class="results-grid">
-            <article class="card" *ngFor="let imageUrl of imageUrls; let i = index">
+            <article class="card" *ngFor="let imageUrl of pagedImageUrls; let i = index">
               <div class="thumb image-wrapper">
-                <img [src]="apiRoot + 'media/' + imageUrl" [alt]="'Result image ' + (i + 1)" class="result-image" />
+                <img [src]="apiRoot + 'media/' + imageUrl"
+                  [alt]="'Result image ' + ((currentPage - 1) * pageSize + i + 1)" class="result-image" />
               </div>
               <div class="meta">
-                <div class="rank">{{ captionRev[i] }}</div>
+                <div class="rank">{{ pagedCaptionRev[i] }}</div>
               </div>
             </article>
+          </div>
+
+          <div class="pagination" *ngIf="imageUrls.length > 0">
+            <button class="btn" type="button" (click)="prevPage()" [disabled]="currentPage === 1">
+              Prev
+            </button>
+
+            <button class="btn" type="button" *ngFor="let page of pageNumbers" (click)="goToPage(page)"
+              [class.primary]="page === currentPage">
+              {{ page }}
+            </button>
+
+            <button class="btn" type="button" (click)="nextPage()" [disabled]="currentPage === totalPages">
+              Next
+            </button>
           </div>
         </section>
       </main>

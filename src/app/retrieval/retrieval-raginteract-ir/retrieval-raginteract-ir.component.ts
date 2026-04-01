@@ -97,6 +97,14 @@ export class RetrievalRAGInteractIRComponent {
   imageUrls: string[] = [];
   captionRev: string[] = [];
 
+  pageSize = 20;
+  currentPage = 1;
+
+  pagedImageUrls: string[] = [];
+  pagedCaptionRev: string[] = [];
+
+  isSending = false;
+
   @ViewChild('chatBody') chatBody?: ElementRef<HTMLDivElement>;
 
   constructor(
@@ -129,6 +137,7 @@ export class RetrievalRAGInteractIRComponent {
 
     this.inputText = '';
     this.messages_user = content;
+    this.isSending = true;
 
     setTimeout(() => this.scrollChatToBottom(), 0);
 
@@ -169,11 +178,18 @@ export class RetrievalRAGInteractIRComponent {
 
       this.imageUrls = resp?.retrieve?.id ?? [];
       this.captionRev = resp?.retrieve?.text ?? [];
+      this.currentPage = 1;
+      this.updatePagedResults();
       this.appSwal.showPopup();
 
       setTimeout(() => this.scrollChatToBottom(), 0);
+
+      this.isSending = false;
+      // setTimeout(() => this.scrollChatToBottom(), 0);
     } catch (err) {
       console.error('Send message failed:', err);
+
+      this.isSending = false;
 
       this.messages = [
         ...this.messages,
@@ -210,6 +226,8 @@ export class RetrievalRAGInteractIRComponent {
 
       this.imageUrls = [];
       this.captionRev = [];
+      this.currentPage = 1;
+      this.updatePagedResults();
 
       setTimeout(() => this.scrollChatToBottom(), 0);
     } catch (err) {
@@ -274,29 +292,33 @@ export class RetrievalRAGInteractIRComponent {
 
     this.inputText = structured;
 
-    const body = { message: structured };
+    this.onSend();
 
-    try {
-      const r: any = await firstValueFrom(
-        this.appService.doPOST(
-          `api/v1/vlm/conversations/${this.conversation_id}/faiss`,
-          body
-        )
-      );
+    // const body = { message: structured };
 
-      this.dataRespone = r;
+    // console.log(body);
 
-      if (this.dataRespone != null) {
-        this.imageUrls = this.dataRespone['id'] ?? [];
-        this.captionRev = this.dataRespone['text'] ?? [];
-        this.appSwal.showPopup();
-      } else {
-        this.appSwal.showFailure(this.dataRespone?.Msg ?? 'Search failed');
-      }
-    } catch (err) {
-      console.error('Apply triplets failed:', err);
-      this.appSwal.showFailure('Apply triplets failed');
-    }
+    // try {
+    //   const r: any = await firstValueFrom(
+    //     this.appService.doPOST(
+    //       `api/v1/vlm/conversations/${this.conversation_id}/messages`,
+    //       body
+    //     )
+    //   );
+
+    //   this.dataRespone = r;
+
+    //   if (this.dataRespone != null) {
+    //     this.imageUrls = this.dataRespone['id'] ?? [];
+    //     this.captionRev = this.dataRespone['text'] ?? [];
+    //     this.appSwal.showPopup();
+    //   } else {
+    //     this.appSwal.showFailure(this.dataRespone?.Msg ?? 'Search failed');
+    //   }
+    // } catch (err) {
+    //   console.error('Apply triplets failed:', err);
+    //   this.appSwal.showFailure('Apply triplets failed');
+    // }
   }
 
   private scrollChatToBottom(): void {
@@ -307,5 +329,50 @@ export class RetrievalRAGInteractIRComponent {
 
   trackById(_: number, item: ChatMessage): string {
     return item.id;
+  }
+
+  get totalPages(): number {
+    return Math.max(1, Math.ceil(this.imageUrls.length / this.pageSize));
+  }
+
+  get pageNumbers(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  private updatePagedResults(): void {
+    const start = (this.currentPage - 1) * this.pageSize;
+    const end = start + this.pageSize;
+
+    this.pagedImageUrls = this.imageUrls.slice(start, end);
+    this.pagedCaptionRev = this.captionRev.slice(start, end);
+  }
+
+  goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages) return;
+    this.currentPage = page;
+    this.updatePagedResults();
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagedResults();
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagedResults();
+    }
+  }
+
+  onPageSizeChange(size: string | number): void {
+    const parsed = Number(size);
+    if (!parsed || parsed <= 0) return;
+
+    this.pageSize = parsed;
+    this.currentPage = 1;
+    this.updatePagedResults();
   }
 }
