@@ -338,6 +338,24 @@
   margin-top: 10px;
 }
 
+.query-input {
+  width: 100%;
+  min-height: 92px;
+  resize: vertical;
+  border-radius: 10px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.95);
+  color: #0f172a;
+  padding: 10px;
+  outline: none;
+  box-sizing: border-box;
+
+  &:focus {
+    border-color: rgba(59, 130, 246, 0.55);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.10);
+  }
+}
+
 .icon-btn {
   height: 34px;
   width: 34px;
@@ -380,6 +398,18 @@
   font-size: 12px;
   font-weight: 600;
   margin: 8px 0 6px;
+}
+
+.suggest-text {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.72);
+  color: #0f172a;
+  padding: 10px;
+  box-sizing: border-box;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .triplet-title.small {

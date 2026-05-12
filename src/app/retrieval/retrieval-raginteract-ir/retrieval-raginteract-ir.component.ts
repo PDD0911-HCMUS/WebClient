@@ -24,6 +24,7 @@ interface ChatMessage {
   id: string;
   role: ChatRole;
   content: string;
+  queryText?: string;
   triplets?: Triplet[];
   suggestions?: SuggestionItem[];
   createdAt: number;
@@ -163,6 +164,7 @@ export class RetrievalRAGInteractIRComponent {
         triplets || suggestions
           ? 'I extracted content below.'
           : String(resp?.answer ?? '');
+      const queryText = triplets || suggestions ? content : undefined;
 
       this.messages = [
         ...this.messages,
@@ -170,6 +172,7 @@ export class RetrievalRAGInteractIRComponent {
           id: uid(),
           role: 'assistant',
           content: assistantContent,
+          queryText,
           triplets: triplets ?? undefined,
           suggestions: suggestions ?? undefined,
           createdAt: Date.now(),
@@ -243,82 +246,47 @@ export class RetrievalRAGInteractIRComponent {
     }
   }
 
-  addTriplet(m: ChatMessage): void {
-    if (!m.triplets) m.triplets = [];
-    m.triplets = [...m.triplets, { subject: '', relation: '', object: '' }];
-  }
-
-  removeTriplet(m: ChatMessage, i: number): void {
-    if (!m.triplets) return;
-    m.triplets = m.triplets.filter((_, idx) => idx !== i);
-  }
-
-  private isSameTriplet(a: Triplet, b: Triplet): boolean {
-    return (
-      (a.subject ?? '').trim().toLowerCase() === (b.subject ?? '').trim().toLowerCase() &&
-      (a.relation ?? '').trim().toLowerCase() === (b.relation ?? '').trim().toLowerCase() &&
-      (a.object ?? '').trim().toLowerCase() === (b.object ?? '').trim().toLowerCase()
-    );
-  }
-
   acceptSuggestion(m: ChatMessage, sIndex: number): void {
     const suggestion = m.suggestions?.[sIndex];
     if (!suggestion) return;
 
-    if (!m.triplets) {
-      m.triplets = [];
-    }
+    const suggestionText = (suggestion.sug ?? '').trim();
+    if (!suggestionText) return;
 
-    for (const st of suggestion.triplets) {
-      const exists = m.triplets.some((mt) => this.isSameTriplet(mt, st));
-      if (!exists) {
-        m.triplets.push({
-          subject: st.subject,
-          relation: st.relation,
-          object: st.object,
-        });
+    const userInput = (m.queryText ?? '').trim() || this.getPreviousUserInput(m);
+    const mergedInput = this.mergeSuggestionInput(userInput, suggestionText);
+
+    suggestion.accepted = true;
+    m.queryText = mergedInput;
+  }
+
+  private mergeSuggestionInput(userInput: string, suggestionText: string): string {
+    if (!userInput) return suggestionText;
+
+    const separator = userInput.endsWith(';') ? ' ' : '; ';
+    return `${userInput}${separator}${suggestionText}`;
+  }
+
+  private getPreviousUserInput(message: ChatMessage): string {
+    const messageIndex = this.messages.findIndex((m) => m.id === message.id);
+    if (messageIndex <= 0) return '';
+
+    for (let i = messageIndex - 1; i >= 0; i--) {
+      const previousMessage = this.messages[i];
+      if (previousMessage.role === 'user') {
+        return previousMessage.content.trim();
       }
     }
 
-    suggestion.accepted = true;
+    return '';
   }
 
-  async applyTriplets(m: ChatMessage): Promise<void> {
-    if (!m.triplets?.length) return;
+  async applyQuery(m: ChatMessage): Promise<void> {
+    const queryText = (m.queryText ?? '').trim();
+    if (!queryText) return;
 
-    const structured = m.triplets
-      .map((t) => `${t.subject} ${t.relation} ${t.object}`.trim())
-      .join('; ');
-
-    this.inputText = structured;
-
+    this.inputText = queryText;
     this.onSend();
-
-    // const body = { message: structured };
-
-    // console.log(body);
-
-    // try {
-    //   const r: any = await firstValueFrom(
-    //     this.appService.doPOST(
-    //       `api/v1/vlm/conversations/${this.conversation_id}/messages`,
-    //       body
-    //     )
-    //   );
-
-    //   this.dataRespone = r;
-
-    //   if (this.dataRespone != null) {
-    //     this.imageUrls = this.dataRespone['id'] ?? [];
-    //     this.captionRev = this.dataRespone['text'] ?? [];
-    //     this.appSwal.showPopup();
-    //   } else {
-    //     this.appSwal.showFailure(this.dataRespone?.Msg ?? 'Search failed');
-    //   }
-    // } catch (err) {
-    //   console.error('Apply triplets failed:', err);
-    //   this.appSwal.showFailure('Apply triplets failed');
-    // }
   }
 
   private scrollChatToBottom(): void {

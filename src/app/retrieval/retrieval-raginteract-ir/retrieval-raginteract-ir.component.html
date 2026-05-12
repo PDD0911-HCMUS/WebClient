@@ -20,30 +20,18 @@
               [class.assistant]="m.role === 'assistant'">
               <div class="bubble">
                 <!-- normal text -->
-                <ng-container *ngIf="!m.triplets?.length && !m.suggestions?.length">
+                <ng-container *ngIf="m.queryText === undefined && !m.triplets?.length && !m.suggestions?.length">
                   {{ m.content }}
                 </ng-container>
 
-                <!-- Extracted triplets -->
-                <ng-container *ngIf="m.triplets?.length">
-                  <div class="triplet-title">Extracted triplets (editable)</div>
+                <!-- Editable query -->
+                <ng-container *ngIf="m.queryText !== undefined">
+                  <div class="triplet-title">Query (editable)</div>
 
-                  <div class="triplet-row" *ngFor="let t of m.triplets; let i = index">
-                    <input class="triplet-input" [(ngModel)]="t.subject" name="sub-{{ m.id }}-{{ i }}"
-                      placeholder="subject" />
-                    <input class="triplet-input" [(ngModel)]="t.relation" name="rel-{{ m.id }}-{{ i }}"
-                      placeholder="relation" />
-                    <input class="triplet-input" [(ngModel)]="t.object" name="obj-{{ m.id }}-{{ i }}"
-                      placeholder="object" />
-
-                    <button class="icon-btn danger" type="button" (click)="removeTriplet(m, i)">
-                      🗑
-                    </button>
-                  </div>
-
+                  <textarea class="query-input" [(ngModel)]="m.queryText" name="query-{{ m.id }}" rows="4"></textarea>
                   <div class="triplet-actions">
-                    <button class="btn" type="button" (click)="addTriplet(m)">+ Add</button>
-                    <button class="btn primary" type="button" (click)="applyTriplets(m)">
+                    <button class="btn primary" type="button" (click)="applyQuery(m)"
+                      [disabled]="!m.queryText.trim()">
                       Apply / Search
                     </button>
                   </div>
@@ -54,33 +42,15 @@
                   <div class="triplet-title">Suggestions</div>
 
                   <div class="suggest-card" *ngFor="let s of m.suggestions; let sIdx = index">
-                    <div class="suggest-readonly">
-                      <div class="suggest-field">
-                        <div class="suggest-label">Suggestion</div>
-                        <div class="suggest-text">{{ s.sug }}</div>
-                      </div>
-
-                      <!-- <div class="suggest-field">
-                        <div class="suggest-label">Explanation</div>
-                        <div class="suggest-text">{{ s.explain }}</div>
-                      </div> -->
-                    </div>
-
-                    <div class="triplet-title">Suggestion triplets</div>
-
-                    <div class="triplet-row readonly-row" *ngFor="let t of s.triplets; let tIdx = index">
-                      <input class="triplet-input" [ngModel]="t.subject" name="ssub-{{ m.id }}-{{ sIdx }}-{{ tIdx }}"
-                        placeholder="subject" readonly />
-                      <input class="triplet-input" [ngModel]="t.relation" name="srel-{{ m.id }}-{{ sIdx }}-{{ tIdx }}"
-                        placeholder="relation" readonly />
-                      <input class="triplet-input" [ngModel]="t.object" name="sobj-{{ m.id }}-{{ sIdx }}-{{ tIdx }}"
-                        placeholder="object" readonly />
+                    <div class="suggest-field">
+                      <div class="suggest-label">Suggestion</div>
+                      <div class="suggest-text">{{ s.sug }}</div>
                     </div>
 
                     <div class="triplet-actions">
                       <button class="btn primary" type="button" (click)="acceptSuggestion(m, sIdx)"
-                        [disabled]="s.accepted">
-                        {{ s.accepted ? 'Accepted' : 'Accept' }}
+                        [disabled]="s.accepted || !s.sug.trim()">
+                        {{ s.accepted ? 'Accepted' : 'Accept Suggestion' }}
                       </button>
                     </div>
                   </div>
@@ -129,7 +99,8 @@
                   [alt]="'Result image ' + ((currentPage - 1) * pageSize + i + 1)" class="result-image" />
               </div>
               <div class="meta">
-                <div class="rank">{{ pagedCaptionRev[i] }}</div>
+                <!-- <div class="rank">{{ pagedCaptionRev[i] }}</div> -->
+                <div class="rank">{{ imageUrl }}</div>
               </div>
             </article>
           </div>
